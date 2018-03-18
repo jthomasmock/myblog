@@ -14,7 +14,6 @@ weight = 5
     "Data Science (with R)",
     "Neuroscience",
     "Biology of Aging",
-    "Running",
     "Cooking",
     "NFL (Pittsburgh Steelers)",
     "NHL (Dallas Stars)"
@@ -42,4 +41,4 @@ weight = 5
 
 By day Thomas is a graduate research assistant, studying how redox dysregulation impacts the aging process through functional and biochemical experiments. By night, he is a data science geek, digging into consumer behavior, webscraping, and helping newcomers learn about the benefits of statistical programming with R.
 
-Thomas is heavily involved in the local data science community, serving as Outreach Coordinator for the Dallas R User Group, as a mentor for the [R for Data Science Online Learning Community](https://www.jessemaegan.com/post/r4ds-the-next-iteration/), attends various Data Science and R-related conferences, and participated in Startup Weekend Fort Worth as a data scientist/entrepreneur.
+Thomas is involved in the local and global data science community, serving as Outreach Coordinator for the Dallas R User Group, as a mentor for the [R for Data Science Online Learning Community](https://www.jessemaegan.com/post/r4ds-the-next-iteration/), attending various Data Science and R-related conferences/meetups, and participated in Startup Weekend Fort Worth as a data scientist/entrepreneur.
