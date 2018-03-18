@@ -2,77 +2,77 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homes on Thomas Mock</title>
-    <link>/home/</link>
+    <link>https://www.thomasmock.netlify.com/home/</link>
     <description>Recent content in Homes on Thomas Mock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.thomasmock.netlify.com/home/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>/home/about/</link>
+      <link>https://www.thomasmock.netlify.com/home/about/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/about/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/about/</guid>
       <description>Background By day Thomas is a graduate research assistant, studying how redox dysregulation impacts the aging process through functional and biochemical experiments. By night, he is a data science geek, digging into consumer behavior, webscraping, and helping newcomers learn about the benefits of statistical programming with R.
 Thomas is involved in the local and global data science community, serving as Outreach Coordinator for the Dallas R User Group, as a mentor for the R for Data Science Online Learning Community, attending various Data Science and R-related conferences/meetups, and participated in Startup Weekend Fort Worth as a data scientist/entrepreneur.</description>
     </item>
     
     <item>
       <title>Publications</title>
-      <link>/home/publications/</link>
+      <link>https://www.thomasmock.netlify.com/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 -0500</pubDate>
       
-      <guid>/home/publications/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/publications/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Talks &amp; Workshops</title>
-      <link>/home/talks/</link>
+      <link>https://www.thomasmock.netlify.com/home/talks/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/talks/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/talks/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent Posts</title>
-      <link>/home/posts/</link>
+      <link>https://www.thomasmock.netlify.com/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/posts/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/posts/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Projects</title>
-      <link>/home/projects/</link>
+      <link>https://www.thomasmock.netlify.com/home/projects/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/projects/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/projects/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tags</title>
-      <link>/home/tags/</link>
+      <link>https://www.thomasmock.netlify.com/home/tags/</link>
       <pubDate>Wed, 20 Sep 2017 00:00:00 -0500</pubDate>
       
-      <guid>/home/tags/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/tags/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Contact</title>
-      <link>/home/contact/</link>
+      <link>https://www.thomasmock.netlify.com/home/contact/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/contact/</guid>
+      <guid>https://www.thomasmock.netlify.com/home/contact/</guid>
       <description>Your name:  Your email address:  Your message: 
   </description>
     </item>
