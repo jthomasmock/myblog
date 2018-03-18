@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thomas Mock on Thomas Mock</title>
+    <link>/</link>
+    <description>Recent content in Thomas Mock on Thomas Mock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Functional programming in R with Purrr</title>
+      <link>/post/functional-programming-in-r-with-purrr/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/functional-programming-in-r-with-purrr/</guid>
+      <description>&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/LIvMxbN.jpg&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;When you first started in R you likely were writing simple code to generate one outcome.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(&amp;quot;Hello world!&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Hello world!&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;5 * 6&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 30&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(1, 2, 3, 4, 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1 2 3 4 5&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is great, you are learning about strings, math, and vectors in R!&lt;/p&gt;
+&lt;p&gt;Then you get started with some basic analyses. You want to see if you can find the mean of some numbers.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;employee &amp;lt;- c(&amp;#39;John Doe&amp;#39;,&amp;#39;Peter Gynn&amp;#39;,&amp;#39;Jolie Hope&amp;#39;)
+salary &amp;lt;- c(21000, 23400, 26800)
+startdate &amp;lt;- as.Date(c(&amp;#39;2010-11-1&amp;#39;,&amp;#39;2008-3-25&amp;#39;,&amp;#39;2007-3-14&amp;#39;))
+
+# form dataframe and take mean of salary column
+employ_data &amp;lt;- data.frame(employee, salary, startdate)
+mean(employ_data$salary)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 23733.33&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Eventually you hopefully get exposed to the tidyverse, and you find how this “opinionated collection of R packages designed for data science” makes data analysis in R easier and more readable!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;% 
+  group_by(cyl) %&amp;gt;% 
+  summarize(mean(mpg))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 2
+##     cyl `mean(mpg)`
+##   &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;
+## 1  4.00        26.7
+## 2  6.00        19.7
+## 3  8.00        15.1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Everything is going great! You’ve likely replaced Excel at this point, and potentially SPSS or some other statistical software suite! But then you run into a problem where you need to use a function repeatedly.&lt;/p&gt;
+&lt;p&gt;You could use something like the following code to calculate one-way ANOVAs for some dependent variables and a set independent variable:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;aov_mpg &amp;lt;- aov(mpg ~ factor(cyl), data = mtcars)
+summary(aov_mpg)
+
+aov_disp &amp;lt;- aov(disp ~ factor(cyll), data = mtcars)
+summary(aov_disp)
+
+aov_hp &amp;lt;- aov(hp ~ factor(cyl), data = mrcars)
+summry(aov_hpp)
+
+aov_wt &amp;lt;- aov(wt ~ factor(cyl), datas = mtcars)
+summary(aov_wt)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But you copy-pasted code 3x, and oops you made some minor misspelling mistakes which throws an error! (The above code leads to errors!)&lt;/p&gt;
+&lt;p&gt;Also, what if you realized that you wanted to actually run these ANOVAs for number of gears instead of number of cylinders? You would have to go back and change the &lt;code&gt;factor(cyl)&lt;/code&gt; call to &lt;code&gt;factor(gear)&lt;/code&gt; 4x! This is not very efficient, and you’re more likely to end up with mistakes as you have to type everything multiple times!&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;How about another example.&lt;/p&gt;
+&lt;p&gt;Let’s calculate the R-squared values for the linear relationship between Weight and Miles per Gallon, according to the number of Cylinders.&lt;/p&gt;
+&lt;p&gt;I have written code below that does this for 4 cylinder cars from the &lt;code&gt;mtcars&lt;/code&gt; dataset. This is a worst case scenario, you know some &lt;code&gt;dplyr&lt;/code&gt; code (&lt;code&gt;dplyr::filter&lt;/code&gt;), but are not comfortable with the pipe. That’s fine, you accomplish your goal but a lot of coding! You would have to duplicate this code for 6 cylinder and 8 cylinder cars, for even more code…&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+# create df for 4 cylinder cars
+cyl_4 &amp;lt;- filter(mtcars, cyl == 4)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: package &amp;#39;bindrcpp&amp;#39; was built under R version 3.4.1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create a linear model on 4 cyl cars
+lm_4 &amp;lt;- lm(mpg ~ wt, data = cyl_4)
+
+# get the summ
+lm_4_summary &amp;lt;- summary(lm_4)
+
+# get the r.squared value
+lm_4cyl_r_squared &amp;lt;- lm_4_summary[&amp;quot;r.squared&amp;quot;]
+
+# check the value
+lm_4cyl_r_squared&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $r.squared
+## [1] 0.5086326&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alternatively, you could do the same thing with the pipe. A lot less typing, but to do this for all 3 subsets means we have to copy paste multiple times, so if you end up wanting to do this as a linear model of &lt;code&gt;mpg ~ disp&lt;/code&gt; in addition to &lt;code&gt;mpg ~ wt&lt;/code&gt;, you would have to duplicate the code 3 more times and change it 3 more times. This may not seem like a big deal, but eventually is a huge deal once you start to scale up the code (say 10+ times or 100+ times, etc).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# piped analysis
+lm_4cyl_rsquared &amp;lt;- mtcars %&amp;gt;% 
+  filter(cyl == 4) %&amp;gt;%
+  lm(mpg ~ wt, data = .) %&amp;gt;% 
+  summary() %&amp;gt;% 
+  .$&amp;quot;r.squared&amp;quot;
+
+#check output
+lm_4cyl_r_squared&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $r.squared
+## [1] 0.5086326&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To solve this issue of &lt;em&gt;minimizing repetition with further replication&lt;/em&gt;, we can dive straight into purrr! To read more about purrr Hadley Wickham recommends the iteration chapter from “R for Data Science” or alternatively you can look at the purrr documentation. Lastly, Jenny Bryan has a great purrr tutorial here. You can load purrr by itself, but it is also loaded as part of the tidyverse library.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/gwHRYa4dhOdZC/giphy.gif&#34; alt=&#34;I used to be all meep—meep—PANIC about purrr!!&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;I used to be all meep—meep—PANIC about purrr!!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/3rgXBQIDHkFNniTNRu/giphy.gif&#34; alt=&#34;now I’m all like map %&amp;gt;% map %&amp;gt;% PARTY!&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;now I’m all like map %&amp;gt;% map %&amp;gt;% PARTY!&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;purrr allows you to map functions to data. Appropriately the basic function in purrr is called map()! The map functions transform their input by applying a function to each element and returning a vector the same length as the input.&lt;/p&gt;
+&lt;p&gt;The base arguments for map() are: .x - list or atomic vector (logical, integer, double/numeric, and character) .f - function, formula, or atomic vector&lt;/p&gt;
+&lt;p&gt;Basically map() takes a function (.f) and applies it to data (.x).&lt;/p&gt;
+&lt;p&gt;Going back to our example of grabbing the R-squared from a linear model, we use the following code with purrr.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;%
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary) %&amp;gt;%
+  map_dbl(&amp;quot;r.squared&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         4         6         8 
+## 0.5086326 0.4645102 0.4229655&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This generates an output from all 3 of our linear models according to number of cylinders in 5 lines of code! This is the beauty of purrr, efficient scaling of functions!&lt;/p&gt;
+&lt;p&gt;Let’s break down our linear model R-squared code.&lt;/p&gt;
+&lt;p&gt;We take the mtcars dataset, split it into data subsets according to the number of cylinders, apply a linear model of mpg by wt to each subset of data, apply a summary function and then pull out the r.squared value. However, while purrr is readable, we need to cover a few quirks of using it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;%
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary) %&amp;gt;%
+  map_dbl(&amp;quot;r.squared&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         4         6         8 
+## 0.5086326 0.4645102 0.4229655&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For our code here you may have noticed we have a “&lt;code&gt;.&lt;/code&gt;” placed twice within the code. This is a placeholder for the data, we can see this below. The “&lt;code&gt;.&lt;/code&gt;” indicate the left-hand side data, or in this case mtcars. Our split call splits the mtcars dataframe into 3 dataframes, each stored within a list. This may seem odd, but it allows map to cycle through our 3 dataframes and replicate the lm() function on each of them individually.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# piped version
+mtcars %&amp;gt;% 
+  split(.$cyl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# base R version
+split(mtcars, mtcars$cyl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $`4`
+##                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic    30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona  21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+## 
+## $`6`
+##                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Valiant        18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Merc 280       19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## 
+## $`8`
+##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Similarily, the “&lt;code&gt;.&lt;/code&gt;” in or first map call is a placeholder for data, but in this case it will cycle through our list of 3 dataframes generated by the previous pipe. You can see that we get a list of 3 &lt;code&gt;lm()&lt;/code&gt; outputs, we need to map a summary call to each of these to get access to R-squared.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;%
+  map(~ lm(mpg ~ wt, data = .))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $`4`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Coefficients:
+## (Intercept)           wt  
+##      39.571       -5.647  
+## 
+## 
+## $`6`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Coefficients:
+## (Intercept)           wt  
+##       28.41        -2.78  
+## 
+## 
+## $`8`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Coefficients:
+## (Intercept)           wt  
+##      23.868       -2.192&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We next map our summary function to each of the list items to get cleaner outputs with R-squared values. We now have the rest of our statistical output, including p values and R-squared.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;%
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $`4`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.1513 -1.9795 -0.6272  1.9299  5.2523 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)   39.571      4.347   9.104 7.77e-06 ***
+## wt            -5.647      1.850  -3.052   0.0137 *  
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 3.332 on 9 degrees of freedom
+## Multiple R-squared:  0.5086, Adjusted R-squared:  0.454 
+## F-statistic: 9.316 on 1 and 9 DF,  p-value: 0.01374
+## 
+## 
+## $`6`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Residuals:
+##      Mazda RX4  Mazda RX4 Wag Hornet 4 Drive        Valiant       Merc 280 
+##        -0.1250         0.5840         1.9292        -0.6897         0.3547 
+##      Merc 280C   Ferrari Dino 
+##        -1.0453        -1.0080 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)   
+## (Intercept)   28.409      4.184   6.789  0.00105 **
+## wt            -2.780      1.335  -2.083  0.09176 . 
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 1.165 on 5 degrees of freedom
+## Multiple R-squared:  0.4645, Adjusted R-squared:  0.3574 
+## F-statistic: 4.337 on 1 and 5 DF,  p-value: 0.09176
+## 
+## 
+## $`8`
+## 
+## Call:
+## lm(formula = mpg ~ wt, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.1491 -1.4664 -0.8458  1.5711  3.7619 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  23.8680     3.0055   7.942 4.05e-06 ***
+## wt           -2.1924     0.7392  -2.966   0.0118 *  
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 2.024 on 12 degrees of freedom
+## Multiple R-squared:  0.423,  Adjusted R-squared:  0.3749 
+## F-statistic: 8.796 on 1 and 12 DF,  p-value: 0.01179&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our last map is a bit different. You can see we use &lt;code&gt;map_dbl&lt;/code&gt; this time. This indicates we want our output to be a &lt;code&gt;dbl&lt;/code&gt; or numeric outcome. We get nice named numbers!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;%
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary) %&amp;gt;%
+  map_dbl(&amp;quot;r.squared&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         4         6         8 
+## 0.5086326 0.4645102 0.4229655&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If we had not indicated &lt;code&gt;map_dbl&lt;/code&gt;, but instead used &lt;code&gt;map&lt;/code&gt; we would get a list of the same outcome.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;% 
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary) %&amp;gt;%
+  map(&amp;quot;r.squared&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $`4`
+## [1] 0.5086326
+## 
+## $`6`
+## [1] 0.4645102
+## 
+## $`8`
+## [1] 0.4229655&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You could also use &lt;code&gt;map_dfr&lt;/code&gt; which binds the outputs into rows of a dataframe.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  split(.$cyl) %&amp;gt;% 
+  map(~ lm(mpg ~ wt, data = .)) %&amp;gt;%
+  map(summary) %&amp;gt;%
+  map_dfr(&amp;quot;r.squared&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 3
+##     `4`   `6`   `8`
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1 0.509 0.465 0.423&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are limitless applications of purrr and other functions within purrr that greatly empower your functional programming in R. I hope that this guide motivates you to add purrr to your toolbox and explore this useful tidyverse package!&lt;/p&gt;
+&lt;p&gt;As a brief teaser to some more applications of purrr, I’ll leave you with this example. I mentioned calculating ANOVAs across multiple variables at the beginning. Break down this example on your own and see what you think! (You can copy paste this code into R, but need to load the tidyverse and broom packages first).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+  mutate(cyl = factor(cyl)) %&amp;gt;%
+  select(mpg, disp, hp) %&amp;gt;%
+  map(~ aov(.x ~ cyl, data = mtcars)) %&amp;gt;%
+  map_dfr(~ broom::tidy(.), .id = &amp;#39;source&amp;#39;) %&amp;gt;%
+  mutate(p.value = round(p.value, 5))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   source      term df       sumsq       meansq statistic p.value
+## 1    mpg       cyl  1    817.7130    817.71295  79.56103       0
+## 2    mpg Residuals 30    308.3342     10.27781        NA      NA
+## 3   disp       cyl  1 387454.0926 387454.09261 130.99888       0
+## 4   disp Residuals 30  88730.7021   2957.69007        NA      NA
+## 5     hp       cyl  1 100984.1721 100984.17209  67.70993       0
+## 6     hp Residuals 30  44742.7029   1491.42343        NA      NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In closing, I’d like to thank several &lt;code&gt;#r4ds&lt;/code&gt; Online Learning Community members for their help in my personal understanding of &lt;code&gt;purrr&lt;/code&gt;: Frank Farach, Michael Kuehn, and Kent Johnson.&lt;/p&gt;
+&lt;p&gt;If you are interested in joining this community led by Jesse Maegan check out her post &lt;a href=&#34;https://www.jessemaegan.com/post/r4ds-the-next-iteration/&#34;&gt;here&lt;/a&gt;!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A gentle guide to Tidy statistics in R</title>
+      <link>/post/a-gentle-guide-to-tidy-statistics-in-r/</link>
+      <pubDate>Fri, 16 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/a-gentle-guide-to-tidy-statistics-in-r/</guid>
+      <description>&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/o6k6Rne.jpg&#34; alt=&#34;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;After a great discussion started by Jesse Maegan (&lt;span class=&#34;citation&#34;&gt;@kiersi&lt;/span&gt;) on Twitter, I decided to post a workthrough of some (fake) experimental treatment data. These data correspond to a new (fake) research drug called AD-x37, a theoretical drug that has been shown to have beneficial outcomes on cognitive decline in mouse models of Alzheimer’s disease. In the current experiment we will be statistically testing whether the drug was effective in reducing cognitive impairment in dementia patients. See the data &lt;a href=&#34;https://github.com/jthomasmock/tidy-stats-in-R/blob/master/ad_treatment.xlsx&#34; title=&#34;Data for Tidy Stats&#34;&gt;HERE&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will be using MMSE (mini-mental status exam) scores to assess the degree of cognitive impairment. In a real clinical trial, many other variables would be recorded, but for the sake of a straightforward but multi-variate example we will stick to just MMSE.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/YGevPDS.png&#34; alt=&#34;Source: Folstein et al, 1975, J Psychiatr Res 12:189–198&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Source: Folstein et al, 1975, J Psychiatr Res 12:189–198&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;We will be working through loading, plotting, analyzing, and saving the outputs of our analysis through the tidyverse, an “opinionated collection of R packages” designed for data analysis. We will limit dependence to two packages: tidyverse and broomwhile using base R for the rest. These two packages dramatically improve the data analysis workflow in my opinion. While other stats-heavy packages provide additional statistical testing, base R has a decent ability to perform statistical analyses out of the box. I will use knitr::kable to generate some html tables for a markdown document, but it is not necessary for the workflow.&lt;/p&gt;
+&lt;p&gt;Additionally, I will be uploading the &lt;a href=&#34;https://github.com/jthomasmock/tidy-stats-in-R/blob/master/ad_treatment.xlsx&#34; title=&#34;Data for Tidy Stats&#34;&gt;Excel Sheet&lt;/a&gt; used in this example, so that you can re-create the workflow on your own. You can simply copy-paste the code seen here and it will run in R. If you would rather see the entire workflow in an R-Markdown document, please see &lt;a href=&#34;http://rpubs.com/jtmock/tidy-stats-in-R&#34;&gt;here&lt;/a&gt;. R Markdown is a document created inside R that allows you to write code, execute it inline, and write comments/notes as you go. You could think of it like being able to write R code inside a basic Word document (but it can do a lot more than that!).&lt;/p&gt;
+&lt;p&gt;Although you may not be interested in the dataset I have provided, this hopefully provides a clear workflow for you to swap in your data of interest and accomplish a basic analysis!&lt;/p&gt;
+&lt;div id=&#34;load-the-tidyverse-broom-and-knitr&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Load the tidyverse, broom, and knitr&lt;/h3&gt;
+&lt;p&gt;Using the &lt;code&gt;library&lt;/code&gt; function we will load the &lt;code&gt;tidyverse&lt;/code&gt;. If you have never installed it before you can also use the &lt;code&gt;install.packages(&amp;quot;tidyverse&amp;quot;)&lt;/code&gt; call to install it for the first time. This package includes &lt;code&gt;ggplot2&lt;/code&gt; (graphs), &lt;code&gt;dplyr&lt;/code&gt;/&lt;code&gt;tidyr&lt;/code&gt; (summary statistics, data manipulation), and &lt;code&gt;readxl&lt;/code&gt; (reading excel files) as well as the pipe &lt;code&gt;%&amp;gt;%&lt;/code&gt;which will make our code much more readable! We will also load the &lt;code&gt;broom&lt;/code&gt; package to tidy up some of our statistical outputs. Lastly we will load &lt;code&gt;knitr&lt;/code&gt; for making nice html tables via &lt;code&gt;knitr::kable&lt;/code&gt;, but not necessary for simply saving the outputs to Excel.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load libraries
+library(tidyverse)
+library(broom)
+library(knitr)
+library(readxl)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will output some message about the packages being loaded and any conflicts of function calls.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;loading-the-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Loading the data&lt;/h3&gt;
+&lt;p&gt;While I am calling &lt;code&gt;readxl::read_xlsx&lt;/code&gt; you could also simply use &lt;code&gt;read_xlsx&lt;/code&gt;, but in the interest of transparency, I will be using the full call to begin. The concept of calling a function with the use of &lt;code&gt;::&lt;/code&gt; is important as some packages have conflicts in functions, for example multiple packages include the function select and summarize. As such, we can clarify from which package we want R to call our function from, so &lt;code&gt;package::function&lt;/code&gt; ! To read more about the concept of “namespace” when calling functions, please look &lt;a href=&#34;http://r-pkgs.had.co.nz/namespace.html&#34; title=&#34;R Packages&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;readxl&lt;/code&gt; is unfortunately a funny case, as installing the &lt;code&gt;tidyverse&lt;/code&gt; installs &lt;code&gt;readxl&lt;/code&gt;, but &lt;code&gt;readxl&lt;/code&gt; is not loaded when loading the &lt;code&gt;tidyverse&lt;/code&gt; via a &lt;code&gt;library&lt;/code&gt; call. As such we must either load &lt;code&gt;readxl&lt;/code&gt; like any other package or call both the package and the name as in &lt;code&gt;readxl::read_xlsx&lt;/code&gt;. &lt;code&gt;readxl&lt;/code&gt; allows us to read .xls, .xlsx files into R. Alternatively, you could convert your Excel sheet into .csv, which can be read by &lt;code&gt;read_csv()&lt;/code&gt;. By using the &lt;code&gt;glimpse&lt;/code&gt; function from &lt;code&gt;dplyr&lt;/code&gt; we can see how the variables were imported, as well as the first few rows.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#### Read excel file
+raw_df &amp;lt;- readxl::read_xlsx(&amp;quot;ad_treatment.xlsx&amp;quot;)
+dplyr::glimpse(raw_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: package &amp;#39;here&amp;#39; was built under R version 3.4.3&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 600
+## Variables: 5
+## $ age            &amp;lt;dbl&amp;gt; 80, 85, 82, 80, 83, 79, 82, 79, 80, 79, 80, 79,...
+## $ sex            &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0,...
+## $ health_status  &amp;lt;chr&amp;gt; &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;He...
+## $ drug_treatment &amp;lt;chr&amp;gt; &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Pl...
+## $ mmse           &amp;lt;dbl&amp;gt; 24.78988, 24.88192, 25.10903, 24.92636, 23.3884...&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;We can collect some information about the dataset now. Namely, we have our 3 categorical/factor variables: sex, health_status, and drug_treatment and 1 dependent variable (DV): mmse. We also have age, but importantly it is recorded as a discrete number instead of as a factor (eg as 85 years, instead of old). Thus we can look at age, but we will not use it as a factor in our ANOVA.&lt;/p&gt;
+&lt;p&gt;Checking the data distribution&lt;/p&gt;
+&lt;p&gt;We will use our first ggplot2call to create a graph showing the distribution of age. To break down what we are doing, we need to call ggplot, tell it what data to use, and use the aes or &lt;code&gt;aesthetic&lt;/code&gt; call to assign the x coordinate. We then add a &lt;code&gt;+&lt;/code&gt; which tells ggplot to include the next line of code. The &lt;code&gt;geom_density&lt;/code&gt; tells R that we want to make create a density distribution layer and we want to fillit with a blue color! For more info about ggplot2 please go &lt;a href=&#34;http://r4ds.had.co.nz/data-visualisation.html&#34;&gt;HERE&lt;/a&gt; or &lt;a href=&#34;http://moderndive.com/3-viz.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = raw_df, aes(x = age)) + 
+ geom_density(fill = &amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;The graph shows us that age really only goes from 79–85 years, and that there is really not any age over or underrepresented. We can confirm the age ranges by a &lt;code&gt;dplyr::summarize&lt;/code&gt; call or by calling &lt;code&gt;range&lt;/code&gt; in base R. As a slight aside, we can now talk about using the pipe or &lt;code&gt;%&amp;gt;%&lt;/code&gt;. The pipe passes the results or data from the left of it to the right. For more info about the pipe, please see &lt;a href=&#34;http://r4ds.had.co.nz/pipes.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We can read the following code as take &lt;code&gt;raw_df&lt;/code&gt; and then summarize it by taking the min and max of the age variable. Now because we started with raw_df R understands we want to take the column age from this dataframe.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;raw_df %&amp;gt;% summarize(
+ min = min(age), 
+ max = max(age))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 2
+##     min   max
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1  79.0  85.0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alternatively we could use the base R &lt;code&gt;range&lt;/code&gt; function, which requires the use of &lt;code&gt;$&lt;/code&gt; . The dollar sign indicates that R should use the age column from raw_df. Both of these functions give us the same results, the minimum number and maximum number.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;range(raw_df$age)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 79 85&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For more information about using these two syntaxes look &lt;a href=&#34;http://www.science.smith.edu/~amcnamara/Syntax-cheatsheet.pdf&#34;&gt;here&lt;/a&gt; or for cheat sheets look &lt;a href=&#34;https://www.rstudio.com/resources/cheatsheets/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;what-about-the-experimental-variables-levels&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;What about the experimental variables levels?&lt;/h4&gt;
+&lt;p&gt;Now while I am very aware of the variables in this dataframe, you might not be without exploring it! To quickly determine drug_treatment groups, health_status groups and how they interact we can do a table call. By calling it on both drug_treatment and health_status, we get a nice table breaking down how many rows are in each of the variable groups.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(raw_df$drug_treatment, raw_df$health_status)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##            
+##             Alzheimer&amp;#39;s Healthy
+##   High Dose         100     100
+##   Low dose          100     100
+##   Placebo           100     100&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;Alternatively we can do the same thing in &lt;code&gt;dplyr&lt;/code&gt; with the following code.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;raw_df %&amp;gt;% 
+  group_by(drug_treatment, health_status) %&amp;gt;% 
+  count()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 3
+## # Groups: drug_treatment, health_status [6]
+##   drug_treatment health_status     n
+##   &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;         &amp;lt;int&amp;gt;
+## 1 High Dose      Alzheimer&amp;#39;s     100
+## 2 High Dose      Healthy         100
+## 3 Low dose       Alzheimer&amp;#39;s     100
+## 4 Low dose       Healthy         100
+## 5 Placebo        Alzheimer&amp;#39;s     100
+## 6 Placebo        Healthy         100&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we know the levels of our variables of interest, and that there are 100 patients per overall treatment group!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-exploration-of-dependent-variable&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data exploration of dependent variable&lt;/h3&gt;
+&lt;p&gt;Before running our summary statistics we can actually visualize the range, central tendency and quartiles via a geom_boxplot call.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = raw_df, # add the data
+       aes(x = drug_treatment, y = mmse, # set x, y coordinates
+           color = drug_treatment)) +    # color by treatment
+  geom_boxplot() +
+  facet_grid(~health_status) # create panes base on health status&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;We have split the data into separate graph facets (or panes) for healthy and Alzheimer’s patients, as well as into groups within each facet by drug treatment. This graph tells us a few things of interest for later. It definitely looks like we have an effect with our (fake) awesome drug! Let’s explore that with descriptive statistics.&lt;/p&gt;
+&lt;p&gt;While this is an exploratory graph and we don’t necessarily want to “tweak” it to perfection, we can take note that our drug treatment should be ordered Placebo &amp;lt; Low dose &amp;lt; High Dose and we should have Healthy patients presented first, and Alzheimer’s patients second. This is something we can fix in our next section!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary-statistics&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summary Statistics&lt;/h3&gt;
+&lt;p&gt;We are looking to generate the mean and standard error for mmse scores, this is useful as a measure of central tendency, and for creating our final publication graphs. We have our categorical variables of sex, drug treatment, and health status. However going back to our glimpse call from earlier, we can see that the data is not ‘coded’ properly. Namely, sex is a &lt;code&gt;dbl&lt;/code&gt; (number), without a descriptive name, and health_status/drug_treatment are &lt;code&gt;chr&lt;/code&gt; (characters)! These need to be converted into factors!&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 600
+## Variables: 5
+## $ age            &amp;lt;dbl&amp;gt; 80, 85, 82, 80, 83, 79, 82, 79, 80, 79, 80, 79,...
+## $ sex            &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0,...
+## $ health_status  &amp;lt;chr&amp;gt; &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;Healthy&amp;quot;, &amp;quot;He...
+## $ drug_treatment &amp;lt;chr&amp;gt; &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Placebo&amp;quot;, &amp;quot;Pl...
+## $ mmse           &amp;lt;dbl&amp;gt; 24.78988, 24.88192, 25.10903, 24.92636, 23.3884...&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;We can use the &lt;code&gt;dplyr::mutate&lt;/code&gt; function to tell R we want to change (mutate) the rows within a variable of interest. So we will take the data in the sex, drug_treatment, and health_status columns and convert them from either just numbers or characters into a factor variable! &lt;code&gt;dplyr::mutate&lt;/code&gt; can also perform math, and many other interesting things. For more information please see &lt;a href=&#34;http://stat545.com/block010_dplyr-end-single-table.html#use-mutate-to-add-new-variables&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will use the &lt;code&gt;mutate&lt;/code&gt; function and the base R &lt;code&gt;factor&lt;/code&gt; function to convert our variables into the proper factors, and give them labels (for sex) or reorder the levels of the factors.&lt;/p&gt;
+&lt;p&gt;We need to be REALLY careful to type the labels EXACTLY as they appear in the column or it will replace those misspelled with a NA. For example, did you notice that High Dose has a capital “D” while Low dose has a lower case “d”?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum_df &amp;lt;- raw_df %&amp;gt;% 
+            mutate(
+              sex = factor(sex, 
+                  labels = c(&amp;quot;Male&amp;quot;, &amp;quot;Female&amp;quot;)),
+              drug_treatment =  factor(drug_treatment, 
+                  levels = c(&amp;quot;Placebo&amp;quot;, &amp;quot;Low dose&amp;quot;, &amp;quot;High Dose&amp;quot;)),
+              health_status = factor(health_status, 
+                  levels = c(&amp;quot;Healthy&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;))
+              )
+glimpse(sum_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As powerful as R is, it needs explicit and accurate code input to accomplish the end goals. As such, if we had typed “High dose” it would give an NA, while “High Dose” outputs correctly. We now see age and mmse as dbl (numerics) and sex, health_status, and drug_treatment as factors.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: package &amp;#39;bindrcpp&amp;#39; was built under R version 3.4.1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 600
+## Variables: 5
+## $ age            &amp;lt;dbl&amp;gt; 80, 85, 82, 80, 83, 79, 82, 79, 80, 79, 80, 79,...
+## $ sex            &amp;lt;fctr&amp;gt; Male, Male, Male, Male, Male, Male, Male, Male...
+## $ health_status  &amp;lt;fctr&amp;gt; Healthy, Healthy, Healthy, Healthy, Healthy, H...
+## $ drug_treatment &amp;lt;fctr&amp;gt; Placebo, Placebo, Placebo, Placebo, Placebo, P...
+## $ mmse           &amp;lt;dbl&amp;gt; 24.78988, 24.88192, 25.10903, 24.92636, 23.3884...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that everything is coded properly, we can calculate our mean and standard error (se = standard deviation/square root of number of samples)! We will use the &lt;code&gt;dplyr::group_by&lt;/code&gt; to tell R which factors we want to… group by! Then we will create named summaries by first calling &lt;code&gt;dplyr::summarize&lt;/code&gt; and then specifying which summaries we want with mmse_mean and mmse_seand the number of samples &lt;code&gt;n()&lt;/code&gt;. Lastly we will &lt;code&gt;ungroup&lt;/code&gt;, which removes the &lt;code&gt;group_by&lt;/code&gt; code from the dataframe.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum_df &amp;lt;- sum_df %&amp;gt;%   
+  group_by(sex, health_status, drug_treatment) %&amp;gt;%  
+  summarize(mmse_mean = mean(mmse),   
+            mmse_se = sd(mmse)/sqrt(n()),
+            n_samples = n()) %&amp;gt;%
+  ungroup() # ungrouping variable is a good habit to prevent errors&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;Now we have a nicely formatted dataframe that can be saved to Excel, or used in graphing. We need to indicate what data we are writing (sum_df) and what we want the resulting file to be named (“adx37_sum_stats.csv”).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# code to save the table into a .csv Excel file
+write.csv(sum_df, &amp;quot;adx37_sum_stats.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary-graph&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summary graph&lt;/h3&gt;
+&lt;p&gt;By calling a ggplot function we can generate a preliminary summary graph.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = sum_df, # add the data
+       aes(x = drug_treatment,  #set x, y coordinates
+           y = mmse_mean,
+           group = drug_treatment,  # group by treatment
+           color = drug_treatment)) +    # color by treatment
+  geom_point(size = 3) + # set size of the dots
+  facet_grid(sex~health_status) # create facets by sex and status&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can now see that the graph is properly sorted by drug treatment and by health status. We still have some work to do on the final graph, but let’s move on to the ANOVAs first!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-anova-finally&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The ANOVA finally!&lt;/h3&gt;
+&lt;p&gt;We will be prepping a dataframe for analysis via ANOVA. We need to again make sure we have our factors as factors via mutate, and in the correct order. This is necessary for the ANOVA/post-hoc testing to work, and to make the post-hocs and the ANOVA outputs easier to read.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stats_df &amp;lt;- raw_df %&amp;gt;% # start with data
+   mutate(drug_treatment = factor(drug_treatment, 
+             levels = c(&amp;quot;Placebo&amp;quot;, &amp;quot;Low dose&amp;quot;, &amp;quot;High Dose&amp;quot;)),
+         sex = factor(sex, 
+             labels = c(&amp;quot;Male&amp;quot;, &amp;quot;Female&amp;quot;)),
+         health_status = factor(health_status, 
+             levels = c(&amp;quot;Healthy&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;)))
+glimpse(stats_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 600
+## Variables: 5
+## $ age            &amp;lt;dbl&amp;gt; 80, 85, 82, 80, 83, 79, 82, 79, 80, 79, 80, 79,...
+## $ sex            &amp;lt;fctr&amp;gt; Male, Male, Male, Male, Male, Male, Male, Male...
+## $ health_status  &amp;lt;fctr&amp;gt; Healthy, Healthy, Healthy, Healthy, Healthy, H...
+## $ drug_treatment &amp;lt;fctr&amp;gt; Placebo, Placebo, Placebo, Placebo, Placebo, P...
+## $ mmse           &amp;lt;dbl&amp;gt; 24.78988, 24.88192, 25.10903, 24.92636, 23.3884...&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;That gets our dataframe into working status!&lt;/p&gt;
+&lt;p&gt;Calling the ANOVA is a done via the aov function. The basic syntax is shown via pseudocode below. We put the dependent variable first (mmse in our case), then a ~ then the independent variable we want to test. Lastly we specify what data to use.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;aov(dependent_variable ~ independent variable, data = data_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can add our real data set via the code below, but because we have 3 independent variables we have a choice to make. We can simply look for main effects by adding a + in between each of our variables, or we can look for both main effects and interactions by adding a &lt;code&gt;*&lt;/code&gt; between each variable. Make sure to not replace the &lt;code&gt;+&lt;/code&gt; or &lt;code&gt;*&lt;/code&gt; with commas, as that will lead to an error.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this gives main effects AND interactions
+ad_aov &amp;lt;- aov(mmse ~ sex * drug_treatment * health_status, 
+        data = stats_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this would give ONLY main effects
+ad_aov &amp;lt;- aov(mmse ~ sex + drug_treatment + health_status, data = stats_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this throws an error because we shouldn&amp;#39;t use commas in between!
+ad_aov &amp;lt;- aov(mmse ~ sex, drug_treatment, health_status, data = stats_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;By assigning the ANOVA to the ad_aov object, we can then call &lt;code&gt;summary&lt;/code&gt; on it to look at the results of the ANOVA.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at effects and interactions
+summary(ad_aov)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                                   Df Sum Sq Mean Sq  F value Pr(&amp;gt;F)    
+## sex                                1      0       0    0.047  0.828    
+## drug_treatment                     2   3601    1801  909.213 &amp;lt;2e-16 ***
+## health_status                      1  10789   10789 5447.953 &amp;lt;2e-16 ***
+## sex:drug_treatment                 2      8       4    2.070  0.127    
+## sex:health_status                  1      5       5    2.448  0.118    
+## drug_treatment:health_status       2   2842    1421  717.584 &amp;lt;2e-16 ***
+## sex:drug_treatment:health_status   2      5       2    1.213  0.298    
+## Residuals                        588   1164       2                    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The summary gives us the degrees of freedom, sum of squares, mean squares, F value, and the p value. I added a bold emphasis on the &amp;lt;2e -16, these p values are so small that R switches to scientific notation. So we see significant main effects of drug treatment, health status, and an interaction of drug treatment by health status. We can interpret that Alzheimer’s patients had different cognitive scores than healthy, and that drug treatment had an effect on cognitive scores. Importantly, sex was not a significant factor, as p = 0.828. Variables being scored as significant or non-significant can both be important!&lt;/p&gt;
+&lt;p&gt;We can also use &lt;code&gt;broom::tidy&lt;/code&gt; to clean up the results of the ANOVA and put them into a dataframe. This is useful for storage, or for automation of some analysis for future ANOVAs.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this extracts ANOVA output into a nice tidy dataframe
+tidy_ad_aov &amp;lt;- tidy(ad_aov)
+# which we can save to Excel
+write.csv(tidy_ad_aov, &amp;quot;ad_aov.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, we don’t know the direction of differences, or where exactly the differences were Was it just the high dose? Low dose? Both? We need follow-up post hoc tests to determine these answers!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;post-hocs-post-docs-academia-jokes-dad-jokes&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Post-hocs &amp;gt; Post-docs (academia jokes &amp;lt; dad jokes)&lt;/h3&gt;
+&lt;p&gt;We have multiple ways of looking at post-hocs. I will show two in this section.&lt;/p&gt;
+&lt;p&gt;For the pairwise, we need to use the &lt;code&gt;$&lt;/code&gt; to select columns from each of the dataframes and look at the interaction via &lt;code&gt;:&lt;/code&gt;. Our first pairwise has NO correction for multiple comparisons, and is comparable to a unprotected Fisher’s-LSD post-hoc. This is not stringent at all, and given the amount of comparisons we have it is advisable to either move forward with a p.adjusting Bonferonni correction (change &lt;code&gt;p.adj = “none”&lt;/code&gt; to &lt;code&gt;p.adj = “bonf”&lt;/code&gt;) or the Tukey post-hoc test seen in the next example. You can see that this method is a little jumbled to read due to the &lt;code&gt;dataset$column&lt;/code&gt; method and the need for &lt;code&gt;:&lt;/code&gt; in between each interaction. We can read this as we want pairwise.t.test for the interaction of sex by drug_treatment by health_status, which gives us every iteration of these factors against the other.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# call and save the pair.t.test
+ad_pairwise &amp;lt;- pairwise.t.test(stats_df$mmse,    stats_df$sex:stats_df$drug_treatment:stats_df$health_status, 
+p.adj = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Additionally, we need to extract the matrix of p values and save to an Excel file for future use.&lt;/p&gt;
+&lt;p&gt;We do this by simply wrapping our ad_last posthoc with &lt;code&gt;broom::tidy&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# tidy the post hoc
+tidy_ad_pairwise &amp;lt;- broom::tidy(ad_pairwise)
+
+# look at the comparisons and p-values
+head(tidy_ad_pairwise)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                       group1               group2       p.value
+## 1   Male:Placebo:Alzheimer&amp;#39;s Male:Placebo:Healthy 1.251034e-199
+## 2      Male:Low dose:Healthy Male:Placebo:Healthy  9.836212e-01
+## 3  Male:Low dose:Alzheimer&amp;#39;s Male:Placebo:Healthy 8.010665e-157
+## 4     Male:High Dose:Healthy Male:Placebo:Healthy  5.086183e-03
+## 5 Male:High Dose:Alzheimer&amp;#39;s Male:Placebo:Healthy  3.107802e-10
+## 6     Female:Placebo:Healthy Male:Placebo:Healthy  9.685778e-01&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# save to excel
+write.csv(tidy_ad_pairwise, &amp;quot;tidy_ad_pairwise.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;The Tukey post-hoc is a little cleaner to call, and is preferable to the unadjusted pairwise t-test. Notice we also are already wrapping the Tukey results in broom::tidy to save as a tidy dataframe! The TukeyHSD call incorporates the results of the ANOVA call, and is preferable to the previous method.&lt;/p&gt;
+&lt;p&gt;The following code can be read as we want a Tukey post-hoc test on the results of our ad_aov ANOVA across the interactions of sex by drug_treatment by health_status. Notice the quotation marks around ‘sex:drug_treatment:health_status’ and the : in between each variable. These are necessary to tell R how we want the Tukey to be run! Once this is done, R then runs tidy on it to make it into a nice dataframe similar to our previous pairwise test. We can then save the results to Excel!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# call and tidy the tukey posthoc
+tidy_ad_tukey &amp;lt;- tidy(TukeyHSD(ad_aov, 
+                              which = &amp;#39;sex:drug_treatment:health_status&amp;#39;)
+                      )
+# save to excel
+write.csv(tidy_ad_tukey, &amp;quot;tukey_ad.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;term&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;comparison&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;estimate&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;conf.low&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;conf.high&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;adj.p.value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Female:Placebo:Healthy-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0111117&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.9140819&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9363052&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Male:Low dose:Healthy-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0056692&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.9000907&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9114291&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Female:Low dose:Healthy-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0403184&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.8748132&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9554500&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Male:High Dose:Healthy-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7762410&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.1295189&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.6820009&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1775310&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Female:High Dose:Healthy-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4360609&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.4790707&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3511925&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9213646&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;sex:drug_treatment:health_status&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Male:Placebo:Alzheimer’s-Male:Placebo:Healthy&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-12.8040144&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-13.7053250&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-11.9027038&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;publication-graph&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Publication Graph&lt;/h3&gt;
+&lt;p&gt;Now that we have generated our ANOVAs and post-hocs, and saved them to Excel for storage, we can start making a publication-grade graph!&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt; graphs allow for extreme customization, some of the additions I make to this graph are a personal choice, and as such I would recommend discussion with a mentor or experienced member in your field. Bar graphs are ubiquitous in my field, and while I think plotting as a boxplot would tell more about the data, I will initially start with a bar graph.&lt;/p&gt;
+&lt;p&gt;Our goal is to plot the means, standard errors, and indicate significance where it occurs. Rather than relying on a package to label significance, I will be handmaking a custom dataframe with the tribble function. There are alternatives to doing it this way, but I can easily control what happens with this method, and it is explicitly apparent what the dataframe contains. The basics of tribble are shown in the below example. We assign columns with the ~ and then explicitly write out what we want in each row of the columns.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tribble(
+  ~colA, ~colB,
+  &amp;quot;a&amp;quot;,   1,
+  &amp;quot;b&amp;quot;,   2,
+  &amp;quot;c&amp;quot;,   3
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 2
+##   colA   colB
+##   &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt;
+## 1 a      1.00
+## 2 b      2.00
+## 3 c      3.00&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And here is our actual code for making the custom dataframe.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make the dataframe with specific points of interest to add *
+sig_df &amp;lt;- tribble(
+  ~drug_treatment, ~ health_status, ~sex, ~mmse_mean,
+  &amp;quot;Low dose&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;, &amp;quot;Male&amp;quot;, 17,
+  &amp;quot;High Dose&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;, &amp;quot;Male&amp;quot;, 25,
+  &amp;quot;Low dose&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;, &amp;quot;Female&amp;quot;, 18, 
+  &amp;quot;High Dose&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;, &amp;quot;Female&amp;quot;, 24
+  )
+
+# convert the variables to factors again :)
+sig_df &amp;lt;- sig_df %&amp;gt;% 
+  mutate(drug_treatment = factor(drug_treatment, 
+               levels = c(&amp;quot;Placebo&amp;quot;, &amp;quot;Low dose&amp;quot;, &amp;quot;High Dose&amp;quot;)),
+         sex = factor(sex, 
+               levels = c(&amp;quot;Male&amp;quot;, &amp;quot;Female&amp;quot;)),
+         health_status = factor(health_status, 
+               levels = c(&amp;quot;Healthy&amp;quot;, &amp;quot;Alzheimer&amp;#39;s&amp;quot;)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that we have this data frame, we can use it in a &lt;code&gt;geom_text&lt;/code&gt; call to label our bars with significance labels as indicated by a &lt;code&gt;*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is what the final publication graph looks like in &lt;code&gt;ggplot2&lt;/code&gt; code. You’ll notice I assigned it to &lt;code&gt;g1&lt;/code&gt; rather than just calling it directly. This means I will have to call &lt;code&gt;g1&lt;/code&gt; to view the graph, but I can save it now! To read what we are doing, I am calling the initial &lt;code&gt;ggplot&lt;/code&gt; call as before, but adding an error bar layer, a bar graph layer, separating into panes for sex and health_status, switching to an alternate appearance (&lt;code&gt;theme_bw&lt;/code&gt;), setting the colors manually, making minor adjustments via theme, adding the &lt;code&gt;*&lt;/code&gt; for indication of significance, and lastly altering the axis labels while adding a figure caption.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;g1 &amp;lt;- ggplot(data = sum_df, 
+       aes(x = drug_treatment, y = mmse_mean, fill = drug_treatment,  
+           group = drug_treatment)) +
+  geom_errorbar(aes(ymin = mmse_mean - mmse_se, 
+                    ymax = mmse_mean + mmse_se), width = 0.5) +
+  geom_bar(color = &amp;quot;black&amp;quot;, stat = &amp;quot;identity&amp;quot;, width = 0.7) +
+  
+  facet_grid(sex~health_status) +
+  theme_bw() +
+  scale_fill_manual(values = c(&amp;quot;white&amp;quot;, &amp;quot;grey&amp;quot;, &amp;quot;black&amp;quot;)) +
+  theme(legend.position = &amp;quot;NULL&amp;quot;,
+        legend.title = element_blank(),
+        axis.title = element_text(size = 20),
+        legend.background = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text = element_text(size = 12)) +
+  geom_text(data = sig_df, label = &amp;quot;*&amp;quot;, size = 8) +
+  labs(x = &amp;quot;\nDrug Treatment&amp;quot;, 
+       y = &amp;quot;Cognitive Function (MMSE)\n&amp;quot;,
+       caption = &amp;quot;\nFigure 1. Effect of novel drug treatment AD-x37 on cognitive function in healthy and demented elderly adults. \nn = 100/treatment group (total n = 600), * indicates significance at p &amp;lt; 0.001&amp;quot;)
+g1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Saving is done via the ggsave function, where we will need to name the resulting file with surrounding “ “, tell R which ggplot object we want (g1), and indicate the size via height, width, and units. Don’t forget to save the graph with a dpi call to make it nice and crisp!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# save the graph!
+ggsave(&amp;quot;ad_publication_graph.png&amp;quot;, g1, height = 7, width = 8, units = &amp;quot;in&amp;quot;, dpi = 500)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And the final graph!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;I think it would be a disservice to say you can learn ggplot by simply recreating my example. As such, I would like to point you in the direction of the &lt;a href=&#34;http://r4ds.had.co.nz/index.html&#34;&gt;R for Data Science textbook&lt;/a&gt;, as well as the &lt;a href=&#34;http://moderndive.com/&#34;&gt;Modern Dive ebook&lt;/a&gt;. These free ebooks have a tremendous amount of information that may be beyond what you need to accomplish today, but would serve you well in your future endeavors. Their chapters on data visualization are very helpful for getting started in R plotting!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;thank-you&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Thank you&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/1K9dnlg.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;If you have made it this far, good for you! I hope this was helpful and if you have any questions, I would recommend reaching out on Twitter via the &lt;code&gt;#rstats&lt;/code&gt; or &lt;code&gt;#r4ds&lt;/code&gt; hashtag, or you can find me &lt;span class=&#34;citation&#34;&gt;@thomas_mock&lt;/span&gt; on twitter.&lt;/p&gt;
+&lt;p&gt;Additionally, Jesse Maegan has a R for Data Science Slack channel where you can learn and ask questions as you work through the R for Data Science text, read all about it &lt;a href=&#34;https://www.jessemaegan.com/post/r4ds-the-next-iteration/&#34;&gt;here&lt;/a&gt;!. R Studio (caretakers of the Tidyverse) hosts their own &lt;a href=&#34;https://community.rstudio.com/&#34;&gt;forums&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Customer Churn - EDA</title>
+      <link>/project/customer-churn/</link>
+      <pubDate>Tue, 16 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/customer-churn/</guid>
+      <description>
+
+&lt;h3 id=&#34;executive-summary&#34;&gt;Executive Summary&lt;/h3&gt;
+
+&lt;p&gt;Tenure is the biggest driver of churn, where ~42% of customer churn occurs during the first 6 months and 71.1% occurs within the first 12 months. Interestingly, 99.5% of the customer churn in the first 6 months and 98.9% in the first 12 months are customers on a month-to-month contract. Month-to-month customers make up 55% of the customer base, so while eliminating this type of contract is ill-advised, moving customers from a month-to-month to a one or two year contract should lead to decreased customer churn.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, message=FALSE, warning=FALSE, echo = F&#34;&gt;library(tidyverse)
+library(caret)
+library(knitr)
+library(kableExtra)
+library(markdown)
+library(Amelia)
+library(stringr)
+library(snakecase)
+library(purrr)
+library(randomForest)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;data-preparation&#34;&gt;Data Preparation&lt;/h3&gt;
+
+&lt;p&gt;Read the data into R, convert all column headers to snake_case, generate segments based on spending (low, medium, high) and custumer tenure (6 month increments).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;churn_read &amp;lt;- read.csv(&amp;quot;churn_data.csv&amp;quot;)
+
+# rename columns becuase I don&#39;t like CamelCase
+# long live snake_case
+
+colnames(churn_read) &amp;lt;- to_any_case(colnames(churn_read), case = &amp;quot;snake&amp;quot;)
+#churn_df &amp;lt;- churn_df %&amp;gt;% mutate(monthly_spend = monthly_charges, tenure_length = tenure)
+
+# generate a duplicate column of monthly_spend
+churn_read &amp;lt;- churn_read %&amp;gt;% mutate(monthly_spend = monthly_charges, tenure_segment = tenure, total_charges = monthly_charges*tenure)
+
+churn_df &amp;lt;- churn_read
+
+churn_df2 &amp;lt;- churn_df 
+
+
+glimpse(churn_df)
+
+tenure_seg &amp;lt;- function(tenure){
+  if (tenure &amp;gt;= 0 &amp;amp;&amp;amp; tenure &amp;lt;= 12) {
+    return(&#39;0-12 Month&#39;)
+  }else if (tenure &amp;gt; 12 &amp;amp;&amp;amp; tenure &amp;lt;= 24){
+    return(&#39;12-24 Month&#39;)
+  }else if (tenure &amp;gt; 24 &amp;amp;&amp;amp; tenure &amp;lt;= 36){
+    return(&#39;24-36 Month&#39;)
+  }else if (tenure &amp;gt; 36 &amp;amp;&amp;amp; tenure &amp;lt;= 48){
+    return(&#39;36-48 Month&#39;)
+  }else if (tenure &amp;gt; 48 &amp;amp;&amp;amp; tenure &amp;lt;= 60){
+    return(&#39;48-60 Month&#39;)
+  }else if (tenure &amp;gt; 60){
+    return(&#39;&amp;gt; 60 Month&#39;)
+  }
+}
+
+# apply tenure_seg function on each row of dataframe
+# importantly, I tried doing this with 
+
+# churn_df$tenure_segment &amp;lt;- sapply(churn_df$tenure_segment, tenure_seg)
+# churn_df$tenure_segment &amp;lt;- sapply(churn_df$tenure,tenure_seg)
+
+churn_df$tenure_segment &amp;lt;- churn_df$tenure_segment %&amp;gt;% map_chr(tenure_seg) 
+churn_df$tenure_segment &amp;lt;- as.factor(churn_df$tenure_segment)
+churn_df$tenure_segment &amp;lt;- factor(churn_df$tenure_segment, levels(churn_df$tenure_segment)[c(2, 7, 3:6, 1)])
+
+churn_df &amp;lt;- churn_read
+
+churn_df &amp;lt;- churn_df %&amp;gt;% 
+  mutate(
+    # use purrr to apply my segment function and create a new column
+    tenure_segment = map_chr(tenure, tenure_seg),
+    # convert the text into a factor
+    tenure_segment = factor(tenure_segment),
+    # and correctly order the levels of this factor
+    tenure_segment = fct_relevel(tenure_segment, 
+                       &#39;0-12 Month&#39;, 
+                       &#39;12-24 Month&#39;, 
+                       &#39;24-36 Month&#39;, 
+                       &#39;36-48 Month&#39;, 
+                       &#39;48-60 Month&#39;,
+                       &#39;&amp;gt; 60 Month&#39;))
+
+
+levels(churn_df$tenure_segment)
+churn_df2 &amp;lt;- churn_df 
+
+churn_df$tenure_segment &amp;lt;- sapply(churn_df$tenure,tenure_seg)
+churn_df2[[23]] &amp;lt;- churn_df2[[23]] %&amp;gt;% map_chr(tenure_seg) 
+
+month_seg &amp;lt;- function(monthly_charges){
+    if (monthly_charges &amp;gt;= 0 &amp;amp;&amp;amp; monthly_charges &amp;lt;= 40){
+        return(&#39;Low Spend&#39;)
+    }else if(monthly_charges &amp;gt; 40 &amp;amp;&amp;amp; monthly_charges &amp;lt;= 80){
+        return(&#39;Medium Spend&#39;)
+    }else if (monthly_charges &amp;gt;= 80 &amp;amp;&amp;amp; monthly_charges &amp;gt; 80){
+        return(&#39;High Spend&#39;)
+    }
+}
+
+# apply tenure_seg function on each row of dataframe
+# churn_df$monthly_charges &amp;lt;- sapply(churn_df$monthly_charges, month_seg)
+# When I first tried to do this, I 
+churn_df$monthly_spend &amp;lt;- sapply(churn_df$monthly_charges,month_seg)
+churn_df$monthly_spend &amp;lt;- as.factor(churn_df$monthly_spend)
+churn_df$monthly_spend &amp;lt;- factor(churn_df$monthly_spend, levels(churn_df$monthly_spend)[c(2, 3, 1)])
+
+churn_df &amp;lt;- churn_read
+
+churn_df &amp;lt;- churn_df %&amp;gt;% 
+  mutate(monthly_segment = map_chr(monthly_charges, month_seg), 
+         monthly_segment = factor(monthly_segment),
+         monthly_segment = fct_relevel(monthly_segment, 
+                       &#39;Low Spend&#39;, 
+                       &#39;Medium Spend&#39;, 
+                       &#39;High Spend&#39;))
+levels(churn_df$monthly_segment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;convert-to-binary-coding&#34;&gt;Convert to binary coding&lt;/h4&gt;
+
+&lt;p&gt;Multiple lines, online security, online backup, device proteciton, tech support, streaming tv, streaming movies are converted to a yes/no binary code (exclude &amp;ldquo;no internet/phone service&amp;rdquo; as a code).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;### Convert multiple columns to text
+cols_character &amp;lt;- c(&amp;quot;multiple_lines&amp;quot;, &amp;quot;online_security&amp;quot;, &amp;quot;online_backup&amp;quot;, &amp;quot;device_protection&amp;quot;, &amp;quot;tech_support&amp;quot;, &amp;quot;streaming_tv&amp;quot;, &amp;quot;streaming_movies&amp;quot;)
+cols_internet &amp;lt;- c(&amp;quot;online_security&amp;quot;, &amp;quot;online_backup&amp;quot;, &amp;quot;device_protection&amp;quot;, &amp;quot;tech_support&amp;quot;, &amp;quot;streaming_tv&amp;quot;, &amp;quot;streaming_movies&amp;quot;)
+churn_df[cols_character] &amp;lt;- sapply(churn_df[cols_character], as.character)
+
+# Replace No phone service and no internet service with &amp;quot;No&amp;quot;
+churn_df$multiple_lines &amp;lt;- str_replace(churn_df$multiple_lines, &amp;quot;No phone service&amp;quot;, &amp;quot;No&amp;quot;)
+churn_df[cols_internet] &amp;lt;- data.frame(lapply(churn_df[cols_internet], function(x) {
+  str_replace(x, &amp;quot;No internet service&amp;quot;, &amp;quot;No&amp;quot;)}))
+churn_df[cols_character] &amp;lt;- data.frame(lapply(churn_df[cols_character], as.factor))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;# Generate churn % summary data segmented by monthly segments
+churn_segment_summary &amp;lt;- churn_df %&amp;gt;% 
+  group_by(churn, tenure_segment) %&amp;gt;% 
+  summarise(n = n()) %&amp;gt;% spread(churn, n) %&amp;gt;% 
+  mutate(churn_percent_total = round(Yes/(nrow(filter(churn_df, churn == &amp;quot;Yes&amp;quot;)))*100, digits = 1), churn_percent_segment = round(Yes/(Yes + No)*100, digits = 1))
+
+churn_table &amp;lt;- churn_segment_summary %&amp;gt;% select(tenure_segment, churn_percent_segment, churn_percent_total) %&amp;gt;% rename(`Tenure Segment` = tenure_segment, `% Churn by Segment` = churn_percent_segment, `% Churn by Total Churn` = churn_percent_total)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;# Generate churn % summary data segmented by monthly segments
+churn_billing_summary &amp;lt;- churn_df %&amp;gt;% 
+  group_by(churn, tenure_segment, contract) %&amp;gt;% 
+  summarise(n = n()) %&amp;gt;% spread(churn, n) %&amp;gt;% 
+  mutate(churn_percent_total = round(Yes/(nrow(filter(churn_df, churn == &amp;quot;Yes&amp;quot;)))*100, digits = 1), churn_percent_segment = round(Yes/(Yes + No)*100, digits = 1))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;generate-summary-data&#34;&gt;Generate summary data&lt;/h3&gt;
+
+&lt;p&gt;We can see that the vast majority (&lt;code&gt;r churn_table[1,3] + churn_table[2,3]&lt;/code&gt;%) of the customer churn occurs during the 1st 12 months&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;kable(churn_table, format = &amp;quot;html&amp;quot;, booktabs = T)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Additionally, we can graphically examine the frequency of customer churn as a function of customer tenure interacting with contract type (eg month-to-month vs a one to two year contract).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;(g1 &amp;lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6 , alpha = 0.3) +
+   facet_grid(~contract) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When we break down customer churn by contract type and spending segemts, we can again see that the almost all of the customers who churn are in the month-to-month plan. Additionally, a majority of customers churn during the first 6 months in the low spend (&amp;lt; $40/month) and medium spend (&amp;lt; $80 month), while the high spend (&amp;gt; $80/month) group has churn out to about ~18 months and has a higher ratio of churn to retained customers as well.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F, message = F&#34;&gt;(g2 &amp;lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+   facet_grid(contract~monthly_segment) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Paperless billing doesn&amp;rsquo;t appear to have a large effect on customer churn, as the ratio of churn to retained customers is similar across groups. However there are more overall customers in the paperless billing segment with corresponding more churning customers overall.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;(g3 &amp;lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+   facet_grid(contract ~paperless_billing) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We do have a bit of an interesting trend according to monthly spending, as there is an uptick in churn customers in the $75-100/month range across all the tenure segments, although customer churn even in the high-spend category does go down across customer-tenure. Perhaps customers in the high spending categories are more aggressively examining price comparisons between companies.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;# this is basically the same graph as the following
+#(g4 &amp;lt;- ggplot(data = churn_df) + 
+  # geom_histogram(aes(x = monthly_charges, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+  # facet_grid(monthly_segment~tenure_segment))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;(g5 &amp;lt;- ggplot(data = churn_df) + 
+   geom_bar(aes(x = monthly_segment, color = churn, fill = churn), alpha = 0.3) +
+   facet_grid(~tenure_segment) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   xlab(&amp;quot;Monthly Spending Segment&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Although less useful than the histograms, we can see the same trend here in the jittered plot - namely that there is less churn as tenure increases, however as spending increases so does churn.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;(g5 &amp;lt;- ggplot(data = churn_df) + 
+   geom_jitter(aes(y = tenure, x = churn, color = churn), alpha = 0.3) +
+   geom_violin(aes(y = tenure, x = churn, fill = churn, color = churn), alpha = 0.5) +
+   facet_wrap(~monthly_segment, ncol = 1) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Paperless billing appears to not be a significant factor in the low or medium spend groups, while there is a distinct uptick across tenure for customers who are both high-spend and paper-less billing. Perhaps digital customers are more likely to &amp;ldquo;jump ship&amp;rdquo; and are more price-aware than customers who mail in their checks each month.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;(g6 &amp;lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), alpha = 0.3, binwidth = 6) +
+   facet_grid(monthly_segment~paperless_billing) +
+   scale_color_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)) +
+   scale_fill_manual(values = c(&amp;quot;#1e90ff&amp;quot;, &amp;quot;#FF0000&amp;quot;, &amp;quot;#999999&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, echo = F&#34;&gt;#(g7 &amp;lt;- ggplot(data = churn_df) + 
+  # geom_histogram(aes(x = tenure, color = churn, fill = churn), alpha = 0.3, binwidth = 1) +
+  # facet_grid(monthly_segment ~ .) +
+  # xlab(&amp;quot;Months as Customer&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

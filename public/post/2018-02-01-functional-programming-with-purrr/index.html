@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="author" content="Thomas Mock">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="Functional Programming in R with purrrWhen you first started in R you likely were writing simple code.
+print(&quot;Hello world!&quot;)## [1] &quot;Hello world!&quot;5 * 6## [1] 30x &lt;- c(1, 2, 3, 4, 5)This is great, you are learning about strings, math, and vectors in R!
+Then you get started with some basic analyses. You want to see if you can find the mean of some numbers.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="../../post/2018-02-01-functional-programming-with-purrr/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-114721555-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="../../index.xml" type="application/rss+xml" title="Thomas Mock">
+  <link rel="feed" href="../../index.xml" type="application/rss+xml" title="Thomas Mock">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="../../post/2018-02-01-functional-programming-with-purrr/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@thomas_mock">
+  <meta property="twitter:creator" content="@thomas_mock">
+  
+  <meta property="og:site_name" content="Thomas Mock">
+  <meta property="og:url" content="/post/2018-02-01-functional-programming-with-purrr/">
+  <meta property="og:title" content="purrr-programming.rmd | Thomas Mock">
+  <meta property="og:description" content="Functional Programming in R with purrrWhen you first started in R you likely were writing simple code.
+print(&quot;Hello world!&quot;)## [1] &quot;Hello world!&quot;5 * 6## [1] 30x &lt;- c(1, 2, 3, 4, 5)This is great, you are learning about strings, math, and vectors in R!
+Then you get started with some basic analyses. You want to see if you can find the mean of some numbers.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-02-01T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-02-01T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>purrr-programming.rmd | Thomas Mock</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../">Thomas Mock</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">purrr-programming.rmd</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-02-01 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Feb 1, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Thomas Mock">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    11 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=purrr-programming.rmd&amp;url=%2fpost%2f2018-02-01-functional-programming-with-purrr%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2f2018-02-01-functional-programming-with-purrr%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2f2018-02-01-functional-programming-with-purrr%2f&amp;title=purrr-programming.rmd"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2f2018-02-01-functional-programming-with-purrr%2f&amp;title=purrr-programming.rmd"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=purrr-programming.rmd&amp;body=%2fpost%2f2018-02-01-functional-programming-with-purrr%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <div id="functional-programming-in-r-with-purrr" class="section level1">
+<h1>Functional Programming in R with purrr</h1>
+<p>When you first started in R you likely were writing simple code.</p>
+<pre class="r"><code>print(&quot;Hello world!&quot;)</code></pre>
+<pre><code>## [1] &quot;Hello world!&quot;</code></pre>
+<pre class="r"><code>5 * 6</code></pre>
+<pre><code>## [1] 30</code></pre>
+<pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5)</code></pre>
+<p>This is great, you are learning about strings, math, and vectors in R!</p>
+<p>Then you get started with some basic analyses. You want to see if you can find the mean of some numbers.</p>
+<pre class="r"><code>employee &lt;- c(&#39;John Doe&#39;,&#39;Peter Gynn&#39;,&#39;Jolie Hope&#39;)
+salary &lt;- c(21000, 23400, 26800)
+startdate &lt;- as.Date(c(&#39;2010-11-1&#39;,&#39;2008-3-25&#39;,&#39;2007-3-14&#39;))
+
+# form dataframe and take mean of salary column
+employ_data &lt;- data.frame(employee, salary, startdate)
+mean(employ_data$salary)</code></pre>
+<pre><code>## [1] 23733.33</code></pre>
+<p>Eventually you hopefully get exposed to the tidyverse, and you find how this “opinionated collection of R packages designed for data science” makes data analysis in R easier and more readable!</p>
+<pre class="r"><code>mtcars %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarize(mean(mpg))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##     cyl `mean(mpg)`
+##   &lt;dbl&gt;       &lt;dbl&gt;
+## 1  4.00        26.7
+## 2  6.00        19.7
+## 3  8.00        15.1</code></pre>
+<p>Everything is going great! You’ve likely replaced Excel at this point, and potentially SPSS or some other statistical software suite! But then you run into a problem where you need to use a function repeatedly.</p>
+<p>You could use something like the following code to calculate one-way ANOVAs for some dependent variables and a set independent variable:</p>
+<pre class="r"><code>aov_mpg &lt;- aov(mpg ~ factor(cyl), data = mtcars)
+summary(aov_mpg)
+
+aov_disp &lt;- aov(disp ~ factor(cyll), data = mtcars)
+summary(aov_disp)
+
+aov_hp &lt;- aov(hp ~ factor(cyl), data = mrcars)
+summry(aov_hpp)
+
+aov_wt &lt;- aov(wt ~ factor(cyl), datas = mtcars)
+summary(aov_wt)</code></pre>
+<p>But you copy-pasted code 3x, and oops you made some minor misspelling mistakes which throws an error! (The above code leads to errors!)</p>
+<p>Also, what if you realized that you wanted to actually run these ANOVAs for number of gears instead of number of cylinders? You would have to go back and change the <code>factor(cyl)</code> call to <code>factor(gear)</code> 4x! This is not very efficient, and you’re more likely to end up with mistakes as you have to type everything multiple times!</p>
+<hr />
+<p>How about another example.</p>
+<p>Let’s calculate the R-squared values for the linear relationship between Weight and Miles per Gallon, according to the number of Cylinders.</p>
+<p>I have written code below that does this for 4 cylinder cars from the <code>mtcars</code> dataset. This is a worst case scenario, you know some <code>dplyr</code> code (<code>dplyr::filter</code>), but are not comfortable with the pipe. That’s fine, you accomplish your goal but a lot of coding! You would have to duplicate this code for 6 cylinder and 8 cylinder cars, for even more code…</p>
+<pre class="r"><code>library(tidyverse)
+# create df for 4 cylinder cars
+cyl_4 &lt;- filter(mtcars, cyl == 4)</code></pre>
+<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.1</code></pre>
+<pre class="r"><code># create a linear model on 4 cyl cars
+lm_4 &lt;- lm(mpg ~ wt, data = cyl_4)
+
+# get the summ
+lm_4_summary &lt;- summary(lm_4)
+
+# get the r.squared value
+lm_4cyl_r_squared &lt;- lm_4_summary[&quot;r.squared&quot;]
+
+# check the value
+lm_4cyl_r_squared</code></pre>
+<pre><code>## $r.squared
+## [1] 0.5086326</code></pre>
+<p>Alternatively, you could do the same thing with the pipe. A lot less typing, but to do this for all 3 subsets means we have to copy paste multiple times, so if you end up wanting to do this as a linear model of <code>mpg ~ disp</code> in addition to <code>mpg ~ wt</code>, you would have to duplicate the code 3 more times and change it 3 more times. This may not seem like a big deal, but eventually is a huge deal once you start to scale up the code (say 10+ times or 100+ times, etc).</p>
+<pre class="r"><code># piped analysis
+lm_4cyl_rsquared &lt;- mtcars %&gt;% 
+  filter(cyl == 4) %&gt;%
+  lm(mpg ~ wt, data = .) %&gt;% 
+  summary() %&gt;% 
+  .$&quot;r.squared&quot;
+
+#check output
+lm_4cyl_r_squared</code></pre>
+<pre><code>## $r.squared
+## [1] 0.5086326</code></pre>
+<p>To solve this issue of minimizing repetition with further replication, we can dive straight into purrr! To read more about purrr Hadley Wickham recommends the iteration chapter from “R for Data Science” or alternatively you can look at the purrr documentation. Lastly, Jenny Bryan has a great purrr tutorial here. You can load purrr by itself, but it is also loaded as part of the tidyverse library.</p>
+<div class="figure">
+<img src="https://media.giphy.com/media/gwHRYa4dhOdZC/giphy.gif" alt="I used to be all meep—meep—PANIC about purrr!!" />
+<p class="caption">I used to be all meep—meep—PANIC about purrr!!</p>
+</div>
+<div class="figure">
+<img src="https://media.giphy.com/media/3rgXBQIDHkFNniTNRu/giphy.gif" alt="now I’m all like map %&gt;% map %&gt;% PARTY!" />
+<p class="caption">now I’m all like map %&gt;% map %&gt;% PARTY!</p>
+</div>
+<p>purrr allows you to map functions to data. Appropriately the basic function in purrr is called map()! The map functions transform their input by applying a function to each element and returning a vector the same length as the input.</p>
+<p>The base arguments for map() are: .x - list or atomic vector (logical, integer, double/numeric, and character) .f - function, formula, or atomic vector</p>
+<p>Basically map() takes a function (.f) and applies it to data (.x).</p>
+<p>Going back to our example of grabbing the R-squared from a linear model, we use the following code with purrr.</p>
+<pre class="r"><code>mtcars %&gt;%
+  split(.$cyl) %&gt;%
+  map(~ lm(mpg ~ wt, data = .)) %&gt;%
+  map(summary) %&gt;%
+  map_dbl(&quot;r.squared&quot;)</code></pre>
+<pre><code>##         4         6         8 
+## 0.5086326 0.4645102 0.4229655</code></pre>
+<p>This generates an output from all 3 of our linear models according to number of cylinders in 5 lines of code! This is the beauty of purrr, efficient scaling of functions!</p>
+<p>Let’s break down our linear model R-squared code.</p>
+<p>We take the mtcars dataset, split it into data subsets according to the number of cylinders, apply a linear model of mpg by wt to each subset of data, apply a summary function and then pull out the r.squared value. However, while purrr is readable, we need to cover a few quirks of using it.</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) %&gt;% map(summary) %&gt;% map_dbl(“r.squared”) # output 4 6 8 0.5086326 0.4645102 0.4229655 For our code here you may have noticed we have a “.” placed twice within the code. This is a placeholder for the data, we can see this below. The “.” indicate the left-hand side data, or in this case mtcars. Our split call splits the mtcars dataframe into 3 dataframes, each stored within a list. This may seem odd, but it allows map to cycle through our 3 dataframes and replicate the lm() function on each of them individually.</p>
+</div>
+<div id="piped" class="section level1">
+<h1>piped</h1>
+<p>mtcars %&gt;% split(.<span class="math inline">\(cyl) # base R split(mtcars, mtcars\)</span>cyl) # output List of 3 $ 4:‘data.frame’: 11 obs. of 11 variables: ..$ mpg : num [1:11] 22.8 24.4 22.8 32.4 30.4 33.9 21.5 27.3 26… ..$ cyl : num [1:11] 4 4 4 4 4 4 4 4 4 4 … ..$ disp: num [1:11] 108 146.7 140.8 78.7 75.7 … ..$ hp : num [1:11] 93 62 95 66 52 65 97 66 91 113 … ..$ drat: num [1:11] 3.85 3.69 3.92 4.08 4.93 4.22 3.7 4.08 … ..$ wt : num [1:11] 2.32 3.19 3.15 2.2 1.61 … ..$ qsec: num [1:11] 18.6 20 22.9 19.5 18.5 … ..$ vs : num [1:11] 1 1 1 1 1 1 1 1 0 1 … ..$ am : num [1:11] 1 0 0 1 1 1 0 1 1 1 … ..$ gear: num [1:11] 4 4 4 4 4 4 3 4 5 5 … ..$ carb: num [1:11] 1 2 2 1 2 1 1 1 2 2 … $ 6:‘data.frame’: 7 obs. of 11 variables: ..$ mpg : num [1:7] 21 21 21.4 18.1 19.2 17.8 19.7 ..$ cyl : num [1:7] 6 6 6 6 6 6 6 ..$ disp: num [1:7] 160 160 258 225 168 … ..$ hp : num [1:7] 110 110 110 105 123 123 175 ..$ drat: num [1:7] 3.9 3.9 3.08 2.76 3.92 3.92 3.62 ..$ wt : num [1:7] 2.62 2.88 3.21 3.46 3.44 … ..$ qsec: num [1:7] 16.5 17 19.4 20.2 18.3 … ..$ vs : num [1:7] 0 0 1 1 1 1 0 ..$ am : num [1:7] 1 1 0 0 0 0 1 ..$ gear: num [1:7] 4 4 3 3 4 4 5 ..$ carb: num [1:7] 4 4 1 1 4 4 6 $ 8:‘data.frame’: 14 obs. of 11 variables: ..$ mpg : num [1:14] 18.7 14.3 16.4 17.3 15.2 10.4 10.4 14.7… ..$ cyl : num [1:14] 8 8 8 8 8 8 8 8 8 8 … ..$ disp: num [1:14] 360 360 276 276 276 … ..$ hp : num [1:14] 175 245 180 180 180 205 215 230 150 150 … ..$ drat: num [1:14] 3.15 3.21 3.07 3.07 3.07 2.93 3 3.23 2.76… ..$ wt : num [1:14] 3.44 3.57 4.07 3.73 3.78 … ..$ qsec: num [1:14] 17 15.8 17.4 17.6 18 … ..$ vs : num [1:14] 0 0 0 0 0 0 0 0 0 0 … ..$ am : num [1:14] 0 0 0 0 0 0 0 0 0 0 … ..$ gear: num [1:14] 3 3 3 3 3 3 3 3 3 3 … ..$ carb: num [1:14] 2 4 3 3 3 4 4 4 2 2 … Similarily, the “.” in or first map call is a placeholder for data, but in this case it will cycle through our list of 3 dataframes generated by the previous pipe. You can see that we get a list of 3 lm() outputs, we need to map a summary call to each of these to get access to R-squared.</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) # output $<code>4</code> Call: lm(formula = mpg ~ wt, data = .) Coefficients: (Intercept) wt<br />
+39.571 -5.647 $<code>6</code> Call: lm(formula = mpg ~ wt, data = .) Coefficients: (Intercept) wt<br />
+28.41 -2.78 $<code>8</code> Call: lm(formula = mpg ~ wt, data = .) Coefficients: (Intercept) wt<br />
+23.868 -2.192 We next map our summary function to each of the list items to get cleaner outputs with R-squared values. We now have the rest of our statistical output, including p values and R-squared.</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) %&gt;% map(summary) # output $<code>4</code> Call: lm(formula = mpg ~ wt, data = .) Residuals: Min 1Q Median 3Q Max -4.1513 -1.9795 -0.6272 1.9299 5.2523 Coefficients: Estimate Std. Error t value Pr(&gt;|t|)<br />
+(Intercept) 39.571 4.347 9.104 7.77e-06 <strong><em> wt -5.647 1.850 -3.052 0.0137 </em><br />
+— Signif. codes: 0 ‘<em><strong>’ 0.001 ‘</strong>’ 0.01 ‘</em>’ 0.05 ‘.’ 0.1 ‘’ 1 Residual standard error: 3.332 on 9 degrees of freedom Multiple R-squared: 0.5086, Adjusted R-squared: 0.454 F-statistic: 9.316 on 1 and 9 DF, p-value: 0.01374 $<code>6</code> Call: lm(formula = mpg ~ wt, data = .) Residuals: Mazda RX4 Mazda RX4 Wag Hornet 4 Drive Valiant Merc 280 -0.1250 0.5840 1.9292 -0.6897 0.3547 Merc 280C Ferrari Dino -1.0453 -1.0080 Coefficients: Estimate Std. Error t value Pr(&gt;|t|)<br />
+(Intercept) 28.409 4.184 6.789 0.00105 </strong> wt -2.780 1.335 -2.083 0.09176 . — Signif. codes: 0 ‘<em><strong>’ 0.001 ‘</strong>’ 0.01 ‘</em>’ 0.05 ‘.’ 0.1 ‘’ 1 Residual standard error: 1.165 on 5 degrees of freedom Multiple R-squared: 0.4645, Adjusted R-squared: 0.3574 F-statistic: 4.337 on 1 and 5 DF, p-value: 0.09176 $<code>8</code> Call: lm(formula = mpg ~ wt, data = .) Residuals: Min 1Q Median 3Q Max -2.1491 -1.4664 -0.8458 1.5711 3.7619 Coefficients: Estimate Std. Error t value Pr(&gt;|t|)<br />
+(Intercept) 23.8680 3.0055 7.942 4.05e-06 **<em> wt -2.1924 0.7392 -2.966 0.0118 </em><br />
+— Signif. codes: 0 ‘<em><strong>’ 0.001 ‘</strong>’ 0.01 ‘</em>’ 0.05 ‘.’ 0.1 ‘’ 1 Residual standard error: 2.024 on 12 degrees of freedom Multiple R-squared: 0.423, Adjusted R-squared: 0.3749 F-statistic: 8.796 on 1 and 12 DF, p-value: 0.01179 Our last map is a bit different. You can see we use map_dbl this time. This indicates we want our output to be a dbl or numeric outcome. We get nice named numbers!</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) %&gt;% map(summary) %&gt;% map_dbl(“r.squared”) # output 4 6 8 0.5086326 0.4645102 0.4229655 If we had not indicated map_dbl, but instead used map we would get a list of the same outcome.</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) %&gt;% map(summary) %&gt;% map(“r.squared”) # output $<code>4</code> [1] 0.5086326 $<code>6</code> [1] 0.4645102 $<code>8</code> [1] 0.4229655 You could also use map_dfr which binds the outputs into rows of a dataframe.</p>
+<p>mtcars %&gt;% split(.$cyl) %&gt;% map(~ lm(mpg ~ wt, data = .)) %&gt;% map(summary) %&gt;% map_dfr(“r.squared”) # output # A tibble: 1 x 3 <code>4</code> <code>6</code> <code>8</code> <dbl> <dbl> <dbl> 1 0.509 0.465 0.423 There are limitless applications of purrr and other functions within purrr that greatly empower your functional programming in R. I hope that this guide motivates you to add purrr to your toolbox and explore this useful tidyverse package!</p>
+<p>As a brief teaser to some more applications of purrr, I’ll leave you with this example. I mentioned calculating ANOVAs across multiple variables at the beginning. Break down this example on your own and see what you think! (You can copy paste this code into R, but need to load the tidyverse and broom packages first).</p>
+<p>mtcars %&gt;% mutate(cyl = factor(cyl), am = factor(am)) %&gt;% select(mpg, disp, hp) %&gt;% map(~ aov(.x ~ cyl * am, data = mtcars)) %&gt;% map_dfr(~ broom::tidy(.), .id = ‘source’) %&gt;% mutate(p.value = round(p.value, 5)) In closing, I’d like to thank several #r4ds slack community members for their help in my personal understanding of purrr: Frank Farach, Michael Kuehn, and Kent Johnson.</p>
+<p>If you are interested in joining this community led by Jesse Maegan check out her post here and May the Force be with you!</p>
+</div>
+
+    </div>
+
+    
+
+
+    
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

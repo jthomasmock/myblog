@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="author" content="Thomas Mock">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="Executive Summary Tenure is the biggest driver of churn, where ~42% of customer churn occurs during the first 6 months and 71.1% occurs within the first 12 months. Interestingly, 99.5% of the customer churn in the first 6 months and 98.9% in the first 12 months are customers on a month-to-month contract. Month-to-month customers make up 55% of the customer base, so while eliminating this type of contract is ill-advised, moving customers from a month-to-month to a one or two year contract should lead to decreased customer churn.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="../../project/customer-churn/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-114721555-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="../../index.xml" type="application/rss+xml" title="Thomas Mock">
+  <link rel="feed" href="../../index.xml" type="application/rss+xml" title="Thomas Mock">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="../../project/customer-churn/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@thomas_mock">
+  <meta property="twitter:creator" content="@thomas_mock">
+  
+  <meta property="og:site_name" content="Thomas Mock">
+  <meta property="og:url" content="/project/customer-churn/">
+  <meta property="og:title" content="Customer Churn - EDA | Thomas Mock">
+  <meta property="og:description" content="Executive Summary Tenure is the biggest driver of churn, where ~42% of customer churn occurs during the first 6 months and 71.1% occurs within the first 12 months. Interestingly, 99.5% of the customer churn in the first 6 months and 98.9% in the first 12 months are customers on a month-to-month contract. Month-to-month customers make up 55% of the customer base, so while eliminating this type of contract is ill-advised, moving customers from a month-to-month to a one or two year contract should lead to decreased customer churn."><meta property="og:image" content="/img/water_drop.jpg">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-16T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-01-16T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>Customer Churn - EDA | Thomas Mock</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../">Thomas Mock</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article article-project" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  
+  
+    <img src="../../img/water_drop.jpg" class="article-banner" itemprop="image">
+  
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="pub-title">
+      <h1 itemprop="name">Customer Churn - EDA</h1>
+      <span class="pub-authors" itemprop="author">&nbsp;</span>
+      <span class="pull-right">
+        
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Customer%20Churn%20-%20EDA&amp;url=%2fproject%2fcustomer-churn%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fproject%2fcustomer-churn%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fproject%2fcustomer-churn%2f&amp;title=Customer%20Churn%20-%20EDA"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fproject%2fcustomer-churn%2f&amp;title=Customer%20Churn%20-%20EDA"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Customer%20Churn%20-%20EDA&amp;body=%2fproject%2fcustomer-churn%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </span>
+    </div>
+
+    
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<h3 id="executive-summary">Executive Summary</h3>
+
+<p>Tenure is the biggest driver of churn, where ~42% of customer churn occurs during the first 6 months and 71.1% occurs within the first 12 months. Interestingly, 99.5% of the customer churn in the first 6 months and 98.9% in the first 12 months are customers on a month-to-month contract. Month-to-month customers make up 55% of the customer base, so while eliminating this type of contract is ill-advised, moving customers from a month-to-month to a one or two year contract should lead to decreased customer churn.</p>
+
+<pre><code class="language-r, message=FALSE, warning=FALSE, echo = F">library(tidyverse)
+library(caret)
+library(knitr)
+library(kableExtra)
+library(markdown)
+library(Amelia)
+library(stringr)
+library(snakecase)
+library(purrr)
+library(randomForest)
+</code></pre>
+
+<h3 id="data-preparation">Data Preparation</h3>
+
+<p>Read the data into R, convert all column headers to snake_case, generate segments based on spending (low, medium, high) and custumer tenure (6 month increments).</p>
+
+<pre><code class="language-r, echo = F">churn_read &lt;- read.csv(&quot;churn_data.csv&quot;)
+
+# rename columns becuase I don't like CamelCase
+# long live snake_case
+
+colnames(churn_read) &lt;- to_any_case(colnames(churn_read), case = &quot;snake&quot;)
+#churn_df &lt;- churn_df %&gt;% mutate(monthly_spend = monthly_charges, tenure_length = tenure)
+
+# generate a duplicate column of monthly_spend
+churn_read &lt;- churn_read %&gt;% mutate(monthly_spend = monthly_charges, tenure_segment = tenure, total_charges = monthly_charges*tenure)
+
+churn_df &lt;- churn_read
+
+churn_df2 &lt;- churn_df 
+
+
+glimpse(churn_df)
+
+tenure_seg &lt;- function(tenure){
+  if (tenure &gt;= 0 &amp;&amp; tenure &lt;= 12) {
+    return('0-12 Month')
+  }else if (tenure &gt; 12 &amp;&amp; tenure &lt;= 24){
+    return('12-24 Month')
+  }else if (tenure &gt; 24 &amp;&amp; tenure &lt;= 36){
+    return('24-36 Month')
+  }else if (tenure &gt; 36 &amp;&amp; tenure &lt;= 48){
+    return('36-48 Month')
+  }else if (tenure &gt; 48 &amp;&amp; tenure &lt;= 60){
+    return('48-60 Month')
+  }else if (tenure &gt; 60){
+    return('&gt; 60 Month')
+  }
+}
+
+# apply tenure_seg function on each row of dataframe
+# importantly, I tried doing this with 
+
+# churn_df$tenure_segment &lt;- sapply(churn_df$tenure_segment, tenure_seg)
+# churn_df$tenure_segment &lt;- sapply(churn_df$tenure,tenure_seg)
+
+churn_df$tenure_segment &lt;- churn_df$tenure_segment %&gt;% map_chr(tenure_seg) 
+churn_df$tenure_segment &lt;- as.factor(churn_df$tenure_segment)
+churn_df$tenure_segment &lt;- factor(churn_df$tenure_segment, levels(churn_df$tenure_segment)[c(2, 7, 3:6, 1)])
+
+churn_df &lt;- churn_read
+
+churn_df &lt;- churn_df %&gt;% 
+  mutate(
+    # use purrr to apply my segment function and create a new column
+    tenure_segment = map_chr(tenure, tenure_seg),
+    # convert the text into a factor
+    tenure_segment = factor(tenure_segment),
+    # and correctly order the levels of this factor
+    tenure_segment = fct_relevel(tenure_segment, 
+                       '0-12 Month', 
+                       '12-24 Month', 
+                       '24-36 Month', 
+                       '36-48 Month', 
+                       '48-60 Month',
+                       '&gt; 60 Month'))
+
+
+levels(churn_df$tenure_segment)
+churn_df2 &lt;- churn_df 
+
+churn_df$tenure_segment &lt;- sapply(churn_df$tenure,tenure_seg)
+churn_df2[[23]] &lt;- churn_df2[[23]] %&gt;% map_chr(tenure_seg) 
+
+month_seg &lt;- function(monthly_charges){
+    if (monthly_charges &gt;= 0 &amp;&amp; monthly_charges &lt;= 40){
+        return('Low Spend')
+    }else if(monthly_charges &gt; 40 &amp;&amp; monthly_charges &lt;= 80){
+        return('Medium Spend')
+    }else if (monthly_charges &gt;= 80 &amp;&amp; monthly_charges &gt; 80){
+        return('High Spend')
+    }
+}
+
+# apply tenure_seg function on each row of dataframe
+# churn_df$monthly_charges &lt;- sapply(churn_df$monthly_charges, month_seg)
+# When I first tried to do this, I 
+churn_df$monthly_spend &lt;- sapply(churn_df$monthly_charges,month_seg)
+churn_df$monthly_spend &lt;- as.factor(churn_df$monthly_spend)
+churn_df$monthly_spend &lt;- factor(churn_df$monthly_spend, levels(churn_df$monthly_spend)[c(2, 3, 1)])
+
+churn_df &lt;- churn_read
+
+churn_df &lt;- churn_df %&gt;% 
+  mutate(monthly_segment = map_chr(monthly_charges, month_seg), 
+         monthly_segment = factor(monthly_segment),
+         monthly_segment = fct_relevel(monthly_segment, 
+                       'Low Spend', 
+                       'Medium Spend', 
+                       'High Spend'))
+levels(churn_df$monthly_segment)
+</code></pre>
+
+<h4 id="convert-to-binary-coding">Convert to binary coding</h4>
+
+<p>Multiple lines, online security, online backup, device proteciton, tech support, streaming tv, streaming movies are converted to a yes/no binary code (exclude &ldquo;no internet/phone service&rdquo; as a code).</p>
+
+<pre><code class="language-r, echo = F">### Convert multiple columns to text
+cols_character &lt;- c(&quot;multiple_lines&quot;, &quot;online_security&quot;, &quot;online_backup&quot;, &quot;device_protection&quot;, &quot;tech_support&quot;, &quot;streaming_tv&quot;, &quot;streaming_movies&quot;)
+cols_internet &lt;- c(&quot;online_security&quot;, &quot;online_backup&quot;, &quot;device_protection&quot;, &quot;tech_support&quot;, &quot;streaming_tv&quot;, &quot;streaming_movies&quot;)
+churn_df[cols_character] &lt;- sapply(churn_df[cols_character], as.character)
+
+# Replace No phone service and no internet service with &quot;No&quot;
+churn_df$multiple_lines &lt;- str_replace(churn_df$multiple_lines, &quot;No phone service&quot;, &quot;No&quot;)
+churn_df[cols_internet] &lt;- data.frame(lapply(churn_df[cols_internet], function(x) {
+  str_replace(x, &quot;No internet service&quot;, &quot;No&quot;)}))
+churn_df[cols_character] &lt;- data.frame(lapply(churn_df[cols_character], as.factor))
+</code></pre>
+
+<pre><code class="language-r, echo = F"># Generate churn % summary data segmented by monthly segments
+churn_segment_summary &lt;- churn_df %&gt;% 
+  group_by(churn, tenure_segment) %&gt;% 
+  summarise(n = n()) %&gt;% spread(churn, n) %&gt;% 
+  mutate(churn_percent_total = round(Yes/(nrow(filter(churn_df, churn == &quot;Yes&quot;)))*100, digits = 1), churn_percent_segment = round(Yes/(Yes + No)*100, digits = 1))
+
+churn_table &lt;- churn_segment_summary %&gt;% select(tenure_segment, churn_percent_segment, churn_percent_total) %&gt;% rename(`Tenure Segment` = tenure_segment, `% Churn by Segment` = churn_percent_segment, `% Churn by Total Churn` = churn_percent_total)
+
+</code></pre>
+
+<pre><code class="language-r, echo = F"># Generate churn % summary data segmented by monthly segments
+churn_billing_summary &lt;- churn_df %&gt;% 
+  group_by(churn, tenure_segment, contract) %&gt;% 
+  summarise(n = n()) %&gt;% spread(churn, n) %&gt;% 
+  mutate(churn_percent_total = round(Yes/(nrow(filter(churn_df, churn == &quot;Yes&quot;)))*100, digits = 1), churn_percent_segment = round(Yes/(Yes + No)*100, digits = 1))
+
+</code></pre>
+
+<h3 id="generate-summary-data">Generate summary data</h3>
+
+<p>We can see that the vast majority (<code>r churn_table[1,3] + churn_table[2,3]</code>%) of the customer churn occurs during the 1st 12 months</p>
+
+<pre><code class="language-r, echo = F">kable(churn_table, format = &quot;html&quot;, booktabs = T)
+</code></pre>
+
+<p>Additionally, we can graphically examine the frequency of customer churn as a function of customer tenure interacting with contract type (eg month-to-month vs a one to two year contract).</p>
+
+<pre><code class="language-r, echo = F">(g1 &lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6 , alpha = 0.3) +
+   facet_grid(~contract) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)))
+</code></pre>
+
+<p>When we break down customer churn by contract type and spending segemts, we can again see that the almost all of the customers who churn are in the month-to-month plan. Additionally, a majority of customers churn during the first 6 months in the low spend (&lt; $40/month) and medium spend (&lt; $80 month), while the high spend (&gt; $80/month) group has churn out to about ~18 months and has a higher ratio of churn to retained customers as well.</p>
+
+<pre><code class="language-r, echo = F, message = F">(g2 &lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+   facet_grid(contract~monthly_segment) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)))
+</code></pre>
+
+<p>Paperless billing doesn&rsquo;t appear to have a large effect on customer churn, as the ratio of churn to retained customers is similar across groups. However there are more overall customers in the paperless billing segment with corresponding more churning customers overall.</p>
+
+<pre><code class="language-r, echo = F">(g3 &lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+   facet_grid(contract ~paperless_billing) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)))
+</code></pre>
+
+<p>We do have a bit of an interesting trend according to monthly spending, as there is an uptick in churn customers in the $75-100/month range across all the tenure segments, although customer churn even in the high-spend category does go down across customer-tenure. Perhaps customers in the high spending categories are more aggressively examining price comparisons between companies.</p>
+
+<pre><code class="language-r, echo = F"># this is basically the same graph as the following
+#(g4 &lt;- ggplot(data = churn_df) + 
+  # geom_histogram(aes(x = monthly_charges, color = churn, fill = churn), binwidth = 6, alpha = 0.3) +
+  # facet_grid(monthly_segment~tenure_segment))
+</code></pre>
+
+<pre><code class="language-r, echo = F">(g5 &lt;- ggplot(data = churn_df) + 
+   geom_bar(aes(x = monthly_segment, color = churn, fill = churn), alpha = 0.3) +
+   facet_grid(~tenure_segment) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   xlab(&quot;Monthly Spending Segment&quot;))
+</code></pre>
+
+<p>Although less useful than the histograms, we can see the same trend here in the jittered plot - namely that there is less churn as tenure increases, however as spending increases so does churn.</p>
+
+<pre><code class="language-r, echo = F">(g5 &lt;- ggplot(data = churn_df) + 
+   geom_jitter(aes(y = tenure, x = churn, color = churn), alpha = 0.3) +
+   geom_violin(aes(y = tenure, x = churn, fill = churn, color = churn), alpha = 0.5) +
+   facet_wrap(~monthly_segment, ncol = 1) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)))
+</code></pre>
+
+<p>Paperless billing appears to not be a significant factor in the low or medium spend groups, while there is a distinct uptick across tenure for customers who are both high-spend and paper-less billing. Perhaps digital customers are more likely to &ldquo;jump ship&rdquo; and are more price-aware than customers who mail in their checks each month.</p>
+
+<pre><code class="language-r, echo = F">(g6 &lt;- ggplot(data = churn_df) + 
+   geom_histogram(aes(x = tenure, color = churn, fill = churn), alpha = 0.3, binwidth = 6) +
+   facet_grid(monthly_segment~paperless_billing) +
+   scale_color_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)) +
+   scale_fill_manual(values = c(&quot;#1e90ff&quot;, &quot;#FF0000&quot;, &quot;#999999&quot;)))
+</code></pre>
+
+<pre><code class="language-r, echo = F">#(g7 &lt;- ggplot(data = churn_df) + 
+  # geom_histogram(aes(x = tenure, color = churn, fill = churn), alpha = 0.3, binwidth = 1) +
+  # facet_grid(monthly_segment ~ .) +
+  # xlab(&quot;Months as Customer&quot;))
+</code></pre>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/exploratory-data-analysis">exploratory-data-analysis</a>
+  
+</div>
+
+
+
+
+    
+    
+    
+
+    
+      
+      
+      
+      
+
+      
+      
+      
+      
+    
+
+  </div>
+</article>
+
+
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
