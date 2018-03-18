@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thomas Mock on Thomas Mock</title>
-    <link>/</link>
+    <link>https://thomasmock.netlify.com/</link>
     <description>Recent content in Thomas Mock on Thomas Mock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Functional programming in R with Purrr</title>
-      <link>/post/functional-programming-in-r-with-purrr/</link>
+      <link>https://thomasmock.netlify.com/post/functional-programming-in-r-with-purrr/</link>
       <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/functional-programming-in-r-with-purrr/</guid>
+      <guid>https://thomasmock.netlify.com/post/functional-programming-in-r-with-purrr/</guid>
       <description>&lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://i.imgur.com/LIvMxbN.jpg&#34; /&gt;
 
@@ -325,10 +325,10 @@ split(mtcars, mtcars$cyl)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>A gentle guide to Tidy statistics in R</title>
-      <link>/post/a-gentle-guide-to-tidy-statistics-in-r/</link>
+      <link>https://thomasmock.netlify.com/post/a-gentle-guide-to-tidy-statistics-in-r/</link>
       <pubDate>Fri, 16 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/a-gentle-guide-to-tidy-statistics-in-r/</guid>
+      <guid>https://thomasmock.netlify.com/post/a-gentle-guide-to-tidy-statistics-in-r/</guid>
       <description>&lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://i.imgur.com/o6k6Rne.jpg&#34; alt=&#34;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&lt;/p&gt;
@@ -375,7 +375,7 @@ dplyr::glimpse(raw_df)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We will use our first ggplot2call to create a graph showing the distribution of age. To break down what we are doing, we need to call ggplot, tell it what data to use, and use the aes or &lt;code&gt;aesthetic&lt;/code&gt; call to assign the x coordinate. We then add a &lt;code&gt;+&lt;/code&gt; which tells ggplot to include the next line of code. The &lt;code&gt;geom_density&lt;/code&gt; tells R that we want to make create a density distribution layer and we want to fillit with a blue color! For more info about ggplot2 please go &lt;a href=&#34;http://r4ds.had.co.nz/data-visualisation.html&#34;&gt;HERE&lt;/a&gt; or &lt;a href=&#34;http://moderndive.com/3-viz.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = raw_df, aes(x = age)) + 
  geom_density(fill = &amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;The graph shows us that age really only goes from 79–85 years, and that there is really not any age over or underrepresented. We can confirm the age ranges by a &lt;code&gt;dplyr::summarize&lt;/code&gt; call or by calling &lt;code&gt;range&lt;/code&gt; in base R. As a slight aside, we can now talk about using the pipe or &lt;code&gt;%&amp;gt;%&lt;/code&gt;. The pipe passes the results or data from the left of it to the right. For more info about the pipe, please see &lt;a href=&#34;http://r4ds.had.co.nz/pipes.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;We can read the following code as take &lt;code&gt;raw_df&lt;/code&gt; and then summarize it by taking the min and max of the age variable. Now because we started with raw_df R understands we want to take the column age from this dataframe.&lt;/p&gt;
@@ -425,7 +425,7 @@ dplyr::glimpse(raw_df)&lt;/code&gt;&lt;/pre&gt;
            color = drug_treatment)) +    # color by treatment
   geom_boxplot() +
   facet_grid(~health_status) # create panes base on health status&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;We have split the data into separate graph facets (or panes) for healthy and Alzheimer’s patients, as well as into groups within each facet by drug treatment. This graph tells us a few things of interest for later. It definitely looks like we have an effect with our (fake) awesome drug! Let’s explore that with descriptive statistics.&lt;/p&gt;
 &lt;p&gt;While this is an exploratory graph and we don’t necessarily want to “tweak” it to perfection, we can take note that our drug treatment should be ordered Placebo &amp;lt; Low dose &amp;lt; High Dose and we should have Healthy patients presented first, and Alzheimer’s patients second. This is something we can fix in our next section!&lt;/p&gt;
@@ -486,7 +486,7 @@ write.csv(sum_df, &amp;quot;adx37_sum_stats.csv&amp;quot;)&lt;/code&gt;&lt;/pre&
            color = drug_treatment)) +    # color by treatment
   geom_point(size = 3) + # set size of the dots
   facet_grid(sex~health_status) # create facets by sex and status&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can now see that the graph is properly sorted by drug treatment and by health status. We still have some work to do on the final graph, but let’s move on to the ANOVAs first!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-anova-finally&#34; class=&#34;section level3&#34;&gt;
@@ -700,7 +700,7 @@ g1&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# save the graph!
 ggsave(&amp;quot;ad_publication_graph.png&amp;quot;, g1, height = 7, width = 8, units = &amp;quot;in&amp;quot;, dpi = 500)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And the final graph!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;./post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;I think it would be a disservice to say you can learn ggplot by simply recreating my example. As such, I would like to point you in the direction of the &lt;a href=&#34;http://r4ds.had.co.nz/index.html&#34;&gt;R for Data Science textbook&lt;/a&gt;, as well as the &lt;a href=&#34;http://moderndive.com/&#34;&gt;Modern Dive ebook&lt;/a&gt;. These free ebooks have a tremendous amount of information that may be beyond what you need to accomplish today, but would serve you well in your future endeavors. Their chapters on data visualization are very helpful for getting started in R plotting!&lt;/p&gt;
 &lt;/div&gt;
@@ -719,10 +719,10 @@ ggsave(&amp;quot;ad_publication_graph.png&amp;quot;, g1, height = 7, width = 8, 
     
     <item>
       <title>Customer Churn - EDA</title>
-      <link>/project/customer-churn/</link>
+      <link>https://thomasmock.netlify.com/project/customer-churn/</link>
       <pubDate>Tue, 16 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/project/customer-churn/</guid>
+      <guid>https://thomasmock.netlify.com/project/customer-churn/</guid>
       <description>
 
 &lt;h3 id=&#34;executive-summary&#34;&gt;Executive Summary&lt;/h3&gt;

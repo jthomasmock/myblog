@@ -5,7 +5,7 @@
     
     <url>
     
-      <loc>/post/functional-programming-in-r-with-purrr/</loc>
+      <loc>https://thomasmock.netlify.com/post/functional-programming-in-r-with-purrr/</loc>
       <lastmod>2018-03-18T00:00:00+00:00</lastmod>
     </url>
     
@@ -14,7 +14,7 @@
     
     <url>
     
-      <loc>/post/a-gentle-guide-to-tidy-statistics-in-r/</loc>
+      <loc>https://thomasmock.netlify.com/post/a-gentle-guide-to-tidy-statistics-in-r/</loc>
       <lastmod>2018-03-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -23,7 +23,7 @@
     
     <url>
     
-      <loc>/project/customer-churn/</loc>
+      <loc>https://thomasmock.netlify.com/project/customer-churn/</loc>
       <lastmod>2018-01-16T00:00:00+00:00</lastmod>
     </url>
     
@@ -32,7 +32,7 @@
     
     <url>
     
-      <loc>/tags/anova/</loc>
+      <loc>https://thomasmock.netlify.com/tags/anova/</loc>
       <lastmod>2018-03-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -42,7 +42,7 @@
     
     <url>
     
-      <loc>/categories/</loc>
+      <loc>https://thomasmock.netlify.com/categories/</loc>
       <priority>0</priority>
     </url>
     
@@ -51,47 +51,7 @@
     
     <url>
     
-      <loc>/tags/exploratory-data-analysis/</loc>
-      <lastmod>2018-01-16T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/guides/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/learning/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/post/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/project/</loc>
+      <loc>https://thomasmock.netlify.com/tags/exploratory-data-analysis/</loc>
       <lastmod>2018-01-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -101,16 +61,7 @@
     
     <url>
     
-      <loc>/publication_types/</loc>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/r/</loc>
+      <loc>https://thomasmock.netlify.com/categories/guides/</loc>
       <lastmod>2018-03-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -120,17 +71,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
-      <lastmod>2018-03-16T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/r4ds/</loc>
+      <loc>https://thomasmock.netlify.com/tags/learning/</loc>
       <lastmod>2018-03-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -140,7 +81,36 @@
     
     <url>
     
-      <loc>/tags/statistics/</loc>
+      <loc>https://thomasmock.netlify.com/post/</loc>
+      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/project/</loc>
+      <lastmod>2018-01-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/publication_types/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/categories/r/</loc>
       <lastmod>2018-03-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -150,7 +120,27 @@
     
     <url>
     
-      <loc>/tags/</loc>
+      <loc>https://thomasmock.netlify.com/tags/r/</loc>
+      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/tags/r4ds/</loc>
+      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/tags/statistics/</loc>
       <lastmod>2018-03-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -160,7 +150,17 @@
     
     <url>
     
-      <loc>/</loc>
+      <loc>https://thomasmock.netlify.com/tags/</loc>
+      <lastmod>2018-03-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://thomasmock.netlify.com/</loc>
       <lastmod>2016-04-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

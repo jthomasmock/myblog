@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on Thomas Mock</title>
-    <link>/project/</link>
+    <link>https://thomasmock.netlify.com/project/</link>
     <description>Recent content in Projects on Thomas Mock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Tue, 16 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://thomasmock.netlify.com/project/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Customer Churn - EDA</title>
-      <link>/project/customer-churn/</link>
+      <link>https://thomasmock.netlify.com/project/customer-churn/</link>
       <pubDate>Tue, 16 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/project/customer-churn/</guid>
+      <guid>https://thomasmock.netlify.com/project/customer-churn/</guid>
       <description>Executive Summary Tenure is the biggest driver of churn, where ~42% of customer churn occurs during the first 6 months and 71.1% occurs within the first 12 months. Interestingly, 99.5% of the customer churn in the first 6 months and 98.9% in the first 12 months are customers on a month-to-month contract. Month-to-month customers make up 55% of the customer base, so while eliminating this type of contract is ill-advised, moving customers from a month-to-month to a one or two year contract should lead to decreased customer churn.</description>
     </item>
     
