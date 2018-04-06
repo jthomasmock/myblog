@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Thomas Mock on Thomas Mock</title>
-    <link>https://thomasmock.netlify.com/</link>
+    <link>/</link>
     <description>Recent content in Thomas Mock on Thomas Mock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -11,11 +11,143 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>TidyTuesday - A weekly social data project in R</title>
+      <link>/post/tidytuesday-a-weekly-social-data-project-in-r/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tidytuesday-a-weekly-social-data-project-in-r/</guid>
+      <description>&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/AXfD3Fk.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Over the past month or so, the &lt;a href=&#34;https://www.jessemaegan.com/post/r4ds-the-next-iteration/&#34;&gt;r4ds online learning community&lt;/a&gt; founded by &lt;a href=&#34;https://www.jessemaegan.com/&#34;&gt;Jesse Maegan&lt;/a&gt; has been developing projects intended to help connect mentors and learners. One of the first projects born out of this collaboration is &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;#TidyTuesday&lt;/a&gt;, a weekly social data project focused on using &lt;code&gt;tidyverse&lt;/code&gt; packages to clean, wrangle, tidy, and plot a new dataset every Tuesday.&lt;/p&gt;
+&lt;p&gt;If you are interested in joining the r4ds online learning community check out Jesse Maegan’s post &lt;a href=&#34;https://www.jessemaegan.com/post/r4ds-the-next-iteration/&#34;&gt;here&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;Every Monday we will release a new dataset on our &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;GitHub&lt;/a&gt; that has been tamed, but does not always adhere to “tidy” data principles. This dataset will come from an article with an interesting plot. Our goal is to have you take a look at the raw data, and generate either a copy of the original plot or a novel take on the data! You can obviously use whatever techniques you feel are appropriate, but the data will be organized in a way that &lt;code&gt;tidyverse&lt;/code&gt; tools will work well!&lt;/p&gt;
+&lt;div id=&#34;why-such-an-emphasis-on-the-tidyverse&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Why such an emphasis on the &lt;code&gt;tidyverse&lt;/code&gt;?&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://i.imgur.com/6iVy4po.png&#34; alt=&#34;The typical Tidyverse workflow&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;The typical Tidyverse workflow&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code&gt;tidyverse&lt;/code&gt; is an “opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.” The &lt;code&gt;tidyverse&lt;/code&gt; is at the core of the the &lt;a href=&#34;http://r4ds.had.co.nz/&#34;&gt;R for Data Science text&lt;/a&gt; written by Garrett Grolemund and Hadley Wickham. This book is aimed to be beginner-friendly but also deep enough to empower R experts as well. The framework of both the book and the &lt;code&gt;tidyverse&lt;/code&gt; package is seen above.&lt;/p&gt;
+&lt;p&gt;We focus on the &lt;code&gt;tidyverse&lt;/code&gt; package as the r4ds online learning community was founded “with the goal of creating a supportive and responsive online space for learners and mentors to gather and work through the R for Data Science text”. Beyond that, the &lt;code&gt;tidyverse&lt;/code&gt; is consistent, powerful, and typically more beginner friendly. It is a good framework to get started with, and is complementary to base R (or the 1000s of other R packages).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;guidelines-for-tidytuesday&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Guidelines for TidyTuesday&lt;/h2&gt;
+&lt;p&gt;To participate in TidyTuesday, you need to do a few things:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Create and save an image of a plot from R&lt;/li&gt;
+&lt;li&gt;Save the code used to recreate your plot (include data tidy steps!)&lt;/li&gt;
+&lt;li&gt;Submit the plot and code on Twitter&lt;/li&gt;
+&lt;li&gt;Use the &lt;code&gt;#TidyTuesday&lt;/code&gt; hashtag (you can also tag me &lt;span class=&#34;citation&#34;&gt;@thomas_mock&lt;/span&gt;)&lt;/li&gt;
+&lt;li&gt;Browse other submissions and like/comment on their work!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;However, that might seem like a &lt;em&gt;lot&lt;/em&gt;! So at &lt;em&gt;minimum&lt;/em&gt; please submit your plot with the hashtag &lt;code&gt;#TidyTuesday&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;All data will be posted on the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday/tree/master/data&#34;&gt;data sets page&lt;/a&gt; on Monday. It will include the link to the original article (for context) and to the data set.&lt;/p&gt;
+&lt;p&gt;If you want to work on GitHub (a useful data science skill) feel free to post your code on GitHub! This will allow others to see and use your code, whereas an image of the code means they would have to re-type everything! Additionally, hosting on GitHub gives you a Data Science Portfolio to talk about/show in interviews, and allows you to access your code across different computers easily!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/&#34;&gt;GitHub link!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://guides.github.com/activities/hello-world/&#34;&gt;GitHub Guide!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can also upload your code into &lt;a href=&#34;https://carbon.now.sh/&#34;&gt;Carbon&lt;/a&gt;, a website the generates a high-quality image of your code.&lt;/p&gt;
+&lt;p&gt;Lastly, if you create your plot with the &lt;code&gt;tidyverse&lt;/code&gt; &lt;a href=&#34;http://ggplot2.tidyverse.org/reference/ggsave.html&#34;&gt;you can save high quality &lt;code&gt;ggplot2&lt;/code&gt; images&lt;/a&gt;!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rules-for-tidytuesday&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Rules for TidyTuesday&lt;/h2&gt;
+&lt;p&gt;We welcome all newcomers, enthusiasts, and experts to participate, but be mindful of a few things:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;This is NOT about criticizing the original authors. They are people like you and me and they have feelings. Focus on the data, the charts and improving your own techniques.&lt;/li&gt;
+&lt;li&gt;This is NOT about criticizing or tearing down your fellow #RStats practitioners! Be supportive and kind to each other! Like other’s posts and help promote the #RStats community!&lt;/li&gt;
+&lt;li&gt;The data set comes from the source article or the source that the article credits. Be mindful that the data is what it is and Tidy Tuesday is designed to help you practice data visualization and basic data wrangling.&lt;/li&gt;
+&lt;li&gt;Use the hashtag #TidyTuesday on Twitter if you create your own version and would like to share it.&lt;/li&gt;
+&lt;li&gt;Include a picture of the visualisation when you post to Twitter.&lt;/li&gt;
+&lt;li&gt;Include a copy of the code used to create your visualization when you post to Twitter. Comment your code wherever possible to help yourself and others understand your process!&lt;/li&gt;
+&lt;li&gt;Focus on improving your craft, even if you end up with someting simple! Make something quick, but purposeful!&lt;/li&gt;
+&lt;li&gt;Give credit to the original data source whenever possible.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;this-weeks-submissions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;This week’s submissions!&lt;/h2&gt;
+&lt;p&gt;Everyone did such a great job! I’m posting all the ones that I can find through the hashtag, you can always tag me in your post to make sure you get noticed in the future.&lt;/p&gt;
+&lt;p&gt;Umair submitted the first TidyTuesday plot EVER!! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;I plotted the costs for the last 5 years in the data &lt;a href=&#34;https://t.co/jNQwHI1mqu&#34;&gt;pic.twitter.com/jNQwHI1mqu&lt;/a&gt;&lt;/p&gt;&amp;mdash; Umair Durrani (@umairdurrani87) &lt;a href=&#34;https://twitter.com/umairdurrani87/status/980941912722083841?ref_src=twsrc%5Etfw&#34;&gt;April 2, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Meenakshi learned about new tidyverse functions and made a beautiful rainbow plot! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;&lt;a href=&#34;https://twitter.com/hashtag/tidytuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#tidytuesday&lt;/a&gt; done on a monday. Learnt gather and fct_reorder. Loved it!&lt;br&gt;Made my plot 🌈🌈 Thanks Thomas!! 😃 &lt;a href=&#34;https://t.co/oqKV6HlBBt&#34;&gt;pic.twitter.com/oqKV6HlBBt&lt;/a&gt;&lt;/p&gt;&amp;mdash; Meenakshi (@srini_meen) &lt;a href=&#34;https://twitter.com/srini_meen/status/980991340497563649?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Son had several takes on the data, all of which helped tell the story! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;&lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; Prices always go up, but if you compare it to the annual average then interesting things happen. Something happened in Arizona, Ohio, Hawai.  &lt;br&gt;&lt;br&gt;code: &lt;a href=&#34;https://t.co/xJ5kD185Os&#34;&gt;https://t.co/xJ5kD185Os&lt;/a&gt; &lt;a href=&#34;https://t.co/i4BMDorq3c&#34;&gt;pic.twitter.com/i4BMDorq3c&lt;/a&gt;&lt;/p&gt;&amp;mdash; Son M (@SonGeo) &lt;a href=&#34;https://twitter.com/SonGeo/status/981022819596124160?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Bren submitted clean code and two great takes on the data! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Just having a little bit of R fun this Tuesday. Found this &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; and thought I could give my contribution. I gather() and summarise() all the Year variables though...makes a different result. &lt;br&gt;Thanks &lt;a href=&#34;https://twitter.com/thomas_mock?ref_src=twsrc%5Etfw&#34;&gt;@thomas_mock&lt;/a&gt; for this good idea. &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://t.co/q54fI9LZRl&#34;&gt;pic.twitter.com/q54fI9LZRl&lt;/a&gt;&lt;/p&gt;&amp;mdash; Marine, R user (@brenborbon) &lt;a href=&#34;https://twitter.com/brenborbon/status/981013957665107970?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;John was one of our first submissions, and made a nice geo heatmap! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;10 year tuition growth per state. Second map is with Hawaii filtered out as it was bit of an outlier and darkening the entire map.&lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/R4DS?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#R4DS&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://t.co/EPE07myFCi&#34;&gt;pic.twitter.com/EPE07myFCi&lt;/a&gt;&lt;/p&gt;&amp;mdash; John Bray (@njbuzz19) &lt;a href=&#34;https://twitter.com/njbuzz19/status/981169470033948674?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;The Part Time Analyst selected a range of states that showed nice differences! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;my attempt at tidy tuesday. Difficult part was getting the cost from character to numeric &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt;  &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://t.co/1fq70OSbhZ&#34;&gt;pic.twitter.com/1fq70OSbhZ&lt;/a&gt;&lt;/p&gt;&amp;mdash; The Part Time Analyst (@parttimeanalyst) &lt;a href=&#34;https://twitter.com/parttimeanalyst/status/981250658899808256?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Paula made a clean difference from the mean barplot! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;on &lt;a href=&#34;https://twitter.com/hashtag/tidytuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#tidytuesday&lt;/a&gt; I got this code &lt;a href=&#34;https://t.co/nabbUZxLm3&#34;&gt;https://t.co/nabbUZxLm3&lt;/a&gt; I&amp;#39;m wondering if the values are right in what I did similar to yours &lt;a href=&#34;https://twitter.com/brenborbon?ref_src=twsrc%5Etfw&#34;&gt;@brenborbon&lt;/a&gt; but different from the original plot 🤔 &lt;a href=&#34;https://t.co/49IYNxR2EJ&#34;&gt;pic.twitter.com/49IYNxR2EJ&lt;/a&gt;&lt;/p&gt;&amp;mdash; Paula Andrea (@orchid00) &lt;a href=&#34;https://twitter.com/orchid00/status/981231113506050053?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Nivranshu wrote a blogpost and made several graphs with their own cricket data! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;My post for &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; - Visualizing IPL scores using tidy data principles -- &lt;a href=&#34;https://t.co/r1vj1Wix1l&#34;&gt;https://t.co/r1vj1Wix1l&lt;/a&gt;.&lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/dataviz?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#dataviz&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/tidyverse?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#tidyverse&lt;/a&gt; &lt;a href=&#34;https://t.co/YGoVFPgnzx&#34;&gt;pic.twitter.com/YGoVFPgnzx&lt;/a&gt;&lt;/p&gt;&amp;mdash; Nivranshu (@_nivranshu) &lt;a href=&#34;https://twitter.com/_nivranshu/status/981216074900430850?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Dylan submitted two takes on the data that both turned out great! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Here&amp;#39;s my first go at &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt;, working with tuition data in the United States. Nothing is quite as smooth as &lt;a href=&#34;https://twitter.com/hashtag/tidyverse?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#tidyverse&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; when doing data analysis. Let me know your thoughts! &lt;a href=&#34;https://t.co/DLoP31bOXK&#34;&gt;pic.twitter.com/DLoP31bOXK&lt;/a&gt;&lt;/p&gt;&amp;mdash; Dylan McDowell (@_dylanjm_) &lt;a href=&#34;https://twitter.com/_dylanjm_/status/981791977552265217?ref_src=twsrc%5Etfw&#34;&gt;April 5, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Rohit created a shiny app, and output gif! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Finally built my first shiny app as a part of &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://t.co/G6oJJ5t2HF&#34;&gt;https://t.co/G6oJJ5t2HF&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/ggplot2?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#ggplot2&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/R4DS?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#R4DS&lt;/a&gt; &lt;a href=&#34;https://t.co/pExxXPBZWn&#34;&gt;pic.twitter.com/pExxXPBZWn&lt;/a&gt;&lt;/p&gt;&amp;mdash; Rohit Malhotra (@krohitm) &lt;a href=&#34;https://twitter.com/krohitm/status/981746783775870977?ref_src=twsrc%5Etfw&#34;&gt;April 5, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Raul submitted a nice, facetted graph with a swapped axis! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Hopefully not too late for a &lt;a href=&#34;https://twitter.com/hashtag/tidytuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#tidytuesday&lt;/a&gt; submission &lt;a href=&#34;https://t.co/fqtc2YLXkh&#34;&gt;pic.twitter.com/fqtc2YLXkh&lt;/a&gt;&lt;/p&gt;&amp;mdash; Raul (@raviolli77) &lt;a href=&#34;https://twitter.com/raviolli77/status/981660586185379840?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;The Wire Monkey submitted a gif of the US with hex states! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Used &lt;a href=&#34;https://t.co/fCLxYKVDTw&#34;&gt;https://t.co/fCLxYKVDTw&lt;/a&gt;&lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; to learn hexmap via &lt;a href=&#34;https://t.co/CegVkyaBfs&#34;&gt;https://t.co/CegVkyaBfs&lt;/a&gt; and gganimate. &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/maps?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#maps&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/adaylate?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#adaylate&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/r4ds?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#r4ds&lt;/a&gt; &lt;a href=&#34;https://t.co/5LNS1q2bOJ&#34;&gt;pic.twitter.com/5LNS1q2bOJ&lt;/a&gt;&lt;/p&gt;&amp;mdash; TheWireMonkey (@WireMonkey) &lt;a href=&#34;https://twitter.com/WireMonkey/status/981639213186678784?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Vinicius submitted a good-looking heatmap! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Not something I would do in practice, but I used the opportunity to experiment with R. &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/ggplot2?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#ggplot2&lt;/a&gt; &lt;a href=&#34;https://t.co/rJ3kX1C2AR&#34;&gt;pic.twitter.com/rJ3kX1C2AR&lt;/a&gt;&lt;/p&gt;&amp;mdash; Vinícius Félix (@H0Vinicius) &lt;a href=&#34;https://twitter.com/H0Vinicius/status/981467944625549312?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Jake submitted a super clean slopegraph! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;A slopegraph for &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt;, code available at: &lt;a href=&#34;https://t.co/qS64cQ3oDJ&#34;&gt;https://t.co/qS64cQ3oDJ&lt;/a&gt; &lt;a href=&#34;https://t.co/j34DA2DzN6&#34;&gt;pic.twitter.com/j34DA2DzN6&lt;/a&gt;&lt;/p&gt;&amp;mdash; Jake Kaupp (@jakekaupp) &lt;a href=&#34;https://twitter.com/jakekaupp/status/981265942226309121?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Robert ubmitted another take on Jake’s slopegraph! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;I loved that approach.  I wanted to see what the growth rates looked like identifiable by state,  here went....  th code is &lt;a href=&#34;https://t.co/HGqXMVnhnF&#34;&gt;https://t.co/HGqXMVnhnF&lt;/a&gt;&lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://t.co/pnCf8aJqP2&#34;&gt;pic.twitter.com/pnCf8aJqP2&lt;/a&gt;&lt;/p&gt;&amp;mdash; Robert Walker (@PieRatio) &lt;a href=&#34;https://twitter.com/PieRatio/status/981409557766393856?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Frank wrote a great blogpost on his “4 hour process”! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;New blog post: My first &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; challenge, completed within a 4-hour time limit from concept to communication. &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/r4ds?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#r4ds&lt;/a&gt; &lt;a href=&#34;https://t.co/o82e1eOloo&#34;&gt;https://t.co/o82e1eOloo&lt;/a&gt;&lt;/p&gt;&amp;mdash; Frank Farach (@FrankFarach) &lt;a href=&#34;https://twitter.com/FrankFarach/status/981396430354075648?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Sam made a really well organized facetted map! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;My &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; submission, a first pass with geo_facet() and trying to get my head around nested data frames. Not sure the absolute ranking is as important as showing where each state is relative to the others   &lt;a href=&#34;https://t.co/Hp3wd7R4VL&#34;&gt;https://t.co/Hp3wd7R4VL&lt;/a&gt; &lt;a href=&#34;https://t.co/K4FFY7rg74&#34;&gt;pic.twitter.com/K4FFY7rg74&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sam Clifford (@samclifford) &lt;a href=&#34;https://twitter.com/samclifford/status/981329343702970369?ref_src=twsrc%5Etfw&#34;&gt;April 4, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Isabella submitted a really nice beeswarm plot over time! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;I love me some beeswarm plots... &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://t.co/76T94PU3el&#34;&gt;pic.twitter.com/76T94PU3el&lt;/a&gt;&lt;/p&gt;&amp;mdash; Isabella Velásquez (@ivelasq3) &lt;a href=&#34;https://twitter.com/ivelasq3/status/981299737524490240?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;Miguel used some data he was already working on, with nice walk-though code! &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;My intent of exploratory analysis based on categorical data (factor variables). Group counting by conditions, creating two new datasets with the results and joining them by a common variable to plot the whole information. Thoughts? &lt;a href=&#34;https://twitter.com/hashtag/TidyTuesday?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#TidyTuesday&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://t.co/NqHyHPH3qd&#34;&gt;pic.twitter.com/NqHyHPH3qd&lt;/a&gt;&lt;/p&gt;&amp;mdash; Miguel Cosenza (@MiguelCos) &lt;a href=&#34;https://twitter.com/MiguelCos/status/981295148251451393?ref_src=twsrc%5Etfw&#34;&gt;April 3, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;If you made a plot and I missed it, feel free to contact me on Twitter with a link to your tweet. As &lt;code&gt;#TidyTuesday&lt;/code&gt; grows, there may be issues where Twitter doesn’t show ALL the plots to me – so it may be helpful to tag me directly in your post to guarantee I see it for sharing!&lt;/p&gt;
+&lt;p&gt;Here’s to next week! Good luck!&lt;/p&gt;
+&lt;p&gt;I’d also like to thank the &lt;code&gt;#r4ds&lt;/code&gt; Mentorship Pilot team for their help in conceptualizing TidyTuesday: Terence, Rosa Castillo, Andrew Macfarland, Ariel Levy, Burcukaniskan, Corrado Lanera, Jake Kaupp, Jason Baik, Jesse Maegan, Radovan Kavicky, Raul, and Shan. There are some other cool projects coming out of this group, so stay posted as they roll out over the next few months.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;other-useful-links&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Other Useful Links&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jessemaegan.com/post/r4ds-the-next-iteration/&#34;&gt;The R4DS Online Learning Community&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://r4ds.had.co.nz/&#34;&gt;The R for Data Science textbook&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://carbon.now.sh/&#34;&gt;Carbon lets you post beautiful code directly to Twitter!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cran.r-project.org/web/packages/fivethirtyeight/fivethirtyeight.pdf&#34;&gt;We will use the fivethirtyeight package frequently for “tame data&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/&#34;&gt;GitHub lets you host raw code for free!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://guides.github.com/activities/hello-world/&#34;&gt;A guide to getting started with GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://ggplot2.tidyverse.org/reference/ggsave.html&#34;&gt;How to save high quality &lt;code&gt;ggplot2&lt;/code&gt; images&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.makeovermonday.co.uk/data/&#34;&gt;Makeover Monday&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Functional programming in R with Purrr</title>
-      <link>https://thomasmock.netlify.com/post/functional-programming-in-r-with-purrr/</link>
+      <link>/post/functional-programming-in-r-with-purrr/</link>
       <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://thomasmock.netlify.com/post/functional-programming-in-r-with-purrr/</guid>
+      <guid>/post/functional-programming-in-r-with-purrr/</guid>
       <description>&lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://i.imgur.com/LIvMxbN.jpg&#34; /&gt;
 
@@ -325,10 +457,10 @@ split(mtcars, mtcars$cyl)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>A gentle guide to Tidy statistics in R</title>
-      <link>https://thomasmock.netlify.com/post/a-gentle-guide-to-tidy-statistics-in-r/</link>
+      <link>/post/a-gentle-guide-to-tidy-statistics-in-r/</link>
       <pubDate>Fri, 16 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://thomasmock.netlify.com/post/a-gentle-guide-to-tidy-statistics-in-r/</guid>
+      <guid>/post/a-gentle-guide-to-tidy-statistics-in-r/</guid>
       <description>&lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;https://i.imgur.com/o6k6Rne.jpg&#34; alt=&#34;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;While data analysis in R can seem intimidating, we will explore how to use it effectively and clearly!&lt;/p&gt;
@@ -375,7 +507,7 @@ dplyr::glimpse(raw_df)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We will use our first ggplot2call to create a graph showing the distribution of age. To break down what we are doing, we need to call ggplot, tell it what data to use, and use the aes or &lt;code&gt;aesthetic&lt;/code&gt; call to assign the x coordinate. We then add a &lt;code&gt;+&lt;/code&gt; which tells ggplot to include the next line of code. The &lt;code&gt;geom_density&lt;/code&gt; tells R that we want to make create a density distribution layer and we want to fillit with a blue color! For more info about ggplot2 please go &lt;a href=&#34;http://r4ds.had.co.nz/data-visualisation.html&#34;&gt;HERE&lt;/a&gt; or &lt;a href=&#34;http://moderndive.com/3-viz.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = raw_df, aes(x = age)) + 
  geom_density(fill = &amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;The graph shows us that age really only goes from 79–85 years, and that there is really not any age over or underrepresented. We can confirm the age ranges by a &lt;code&gt;dplyr::summarize&lt;/code&gt; call or by calling &lt;code&gt;range&lt;/code&gt; in base R. As a slight aside, we can now talk about using the pipe or &lt;code&gt;%&amp;gt;%&lt;/code&gt;. The pipe passes the results or data from the left of it to the right. For more info about the pipe, please see &lt;a href=&#34;http://r4ds.had.co.nz/pipes.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;We can read the following code as take &lt;code&gt;raw_df&lt;/code&gt; and then summarize it by taking the min and max of the age variable. Now because we started with raw_df R understands we want to take the column age from this dataframe.&lt;/p&gt;
@@ -425,7 +557,7 @@ dplyr::glimpse(raw_df)&lt;/code&gt;&lt;/pre&gt;
            color = drug_treatment)) +    # color by treatment
   geom_boxplot() +
   facet_grid(~health_status) # create panes base on health status&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;We have split the data into separate graph facets (or panes) for healthy and Alzheimer’s patients, as well as into groups within each facet by drug treatment. This graph tells us a few things of interest for later. It definitely looks like we have an effect with our (fake) awesome drug! Let’s explore that with descriptive statistics.&lt;/p&gt;
 &lt;p&gt;While this is an exploratory graph and we don’t necessarily want to “tweak” it to perfection, we can take note that our drug treatment should be ordered Placebo &amp;lt; Low dose &amp;lt; High Dose and we should have Healthy patients presented first, and Alzheimer’s patients second. This is something we can fix in our next section!&lt;/p&gt;
@@ -486,7 +618,7 @@ write.csv(sum_df, &amp;quot;adx37_sum_stats.csv&amp;quot;)&lt;/code&gt;&lt;/pre&
            color = drug_treatment)) +    # color by treatment
   geom_point(size = 3) + # set size of the dots
   facet_grid(sex~health_status) # create facets by sex and status&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can now see that the graph is properly sorted by drug treatment and by health status. We still have some work to do on the final graph, but let’s move on to the ANOVAs first!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-anova-finally&#34; class=&#34;section level3&#34;&gt;
@@ -700,7 +832,7 @@ g1&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# save the graph!
 ggsave(&amp;quot;ad_publication_graph.png&amp;quot;, g1, height = 7, width = 8, units = &amp;quot;in&amp;quot;, dpi = 500)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And the final graph!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://thomasmock.netlify.com/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-03-16-a-gentle-guide-to-tidy-statistics-in-r_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;I think it would be a disservice to say you can learn ggplot by simply recreating my example. As such, I would like to point you in the direction of the &lt;a href=&#34;http://r4ds.had.co.nz/index.html&#34;&gt;R for Data Science textbook&lt;/a&gt;, as well as the &lt;a href=&#34;http://moderndive.com/&#34;&gt;Modern Dive ebook&lt;/a&gt;. These free ebooks have a tremendous amount of information that may be beyond what you need to accomplish today, but would serve you well in your future endeavors. Their chapters on data visualization are very helpful for getting started in R plotting!&lt;/p&gt;
 &lt;/div&gt;
@@ -719,10 +851,10 @@ ggsave(&amp;quot;ad_publication_graph.png&amp;quot;, g1, height = 7, width = 8, 
     
     <item>
       <title>Customer Churn - EDA</title>
-      <link>https://thomasmock.netlify.com/project/customer-churn/</link>
+      <link>/project/customer-churn/</link>
       <pubDate>Tue, 16 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://thomasmock.netlify.com/project/customer-churn/</guid>
+      <guid>/project/customer-churn/</guid>
       <description>
 
 &lt;h3 id=&#34;executive-summary&#34;&gt;Executive Summary&lt;/h3&gt;

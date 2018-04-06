@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="author" content="Thomas Mock">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="Over the past month or so, the r4ds online learning community founded by Jesse Maegan has been developing projects intended to help connect mentors and learners. One of the first projects born out of this collaboration is #TidyTuesday, a weekly social data project focused on using tidyverse packages to clean, wrangle, tidy, and plot a new dataset every Tuesday.
+If you are interested in joining the r4ds online learning community check out Jesse Maegan’s post here!">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/tidytuesday-a-weekly-social-data-project-in-r/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-114721555-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Thomas Mock">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Thomas Mock">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/tidytuesday-a-weekly-social-data-project-in-r/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@thomas_mock">
+  <meta property="twitter:creator" content="@thomas_mock">
+  
+  <meta property="og:site_name" content="Thomas Mock">
+  <meta property="og:url" content="/post/tidytuesday-a-weekly-social-data-project-in-r/">
+  <meta property="og:title" content="TidyTuesday - A weekly social data project in R | Thomas Mock">
+  <meta property="og:description" content="Over the past month or so, the r4ds online learning community founded by Jesse Maegan has been developing projects intended to help connect mentors and learners. One of the first projects born out of this collaboration is #TidyTuesday, a weekly social data project focused on using tidyverse packages to clean, wrangle, tidy, and plot a new dataset every Tuesday.
+If you are interested in joining the r4ds online learning community check out Jesse Maegan’s post here!">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-04-05T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-04-05T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>TidyTuesday - A weekly social data project in R | Thomas Mock</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Thomas Mock</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">TidyTuesday - A weekly social data project in R</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-04-05 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Apr 5, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Thomas Mock">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/meta">Meta</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=TidyTuesday%20-%20A%20weekly%20social%20data%20project%20in%20R&amp;url=%2fpost%2ftidytuesday-a-weekly-social-data-project-in-r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidytuesday-a-weekly-social-data-project-in-r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidytuesday-a-weekly-social-data-project-in-r%2f&amp;title=TidyTuesday%20-%20A%20weekly%20social%20data%20project%20in%20R"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidytuesday-a-weekly-social-data-project-in-r%2f&amp;title=TidyTuesday%20-%20A%20weekly%20social%20data%20project%20in%20R"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=TidyTuesday%20-%20A%20weekly%20social%20data%20project%20in%20R&amp;body=%2fpost%2ftidytuesday-a-weekly-social-data-project-in-r%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <div class="figure">
+<img src="https://i.imgur.com/AXfD3Fk.png" />
+
+</div>
+<p>Over the past month or so, the <a href="https://www.jessemaegan.com/post/r4ds-the-next-iteration/">r4ds online learning community</a> founded by <a href="https://www.jessemaegan.com/">Jesse Maegan</a> has been developing projects intended to help connect mentors and learners. One of the first projects born out of this collaboration is <a href="https://github.com/rfordatascience/tidytuesday">#TidyTuesday</a>, a weekly social data project focused on using <code>tidyverse</code> packages to clean, wrangle, tidy, and plot a new dataset every Tuesday.</p>
+<p>If you are interested in joining the r4ds online learning community check out Jesse Maegan’s post <a href="https://www.jessemaegan.com/post/r4ds-the-next-iteration/">here</a>!</p>
+<p>Every Monday we will release a new dataset on our <a href="https://github.com/rfordatascience/tidytuesday">GitHub</a> that has been tamed, but does not always adhere to “tidy” data principles. This dataset will come from an article with an interesting plot. Our goal is to have you take a look at the raw data, and generate either a copy of the original plot or a novel take on the data! You can obviously use whatever techniques you feel are appropriate, but the data will be organized in a way that <code>tidyverse</code> tools will work well!</p>
+<div id="why-such-an-emphasis-on-the-tidyverse" class="section level2">
+<h2>Why such an emphasis on the <code>tidyverse</code>?</h2>
+<div class="figure">
+<img src="https://i.imgur.com/6iVy4po.png" alt="The typical Tidyverse workflow" />
+<p class="caption">The typical Tidyverse workflow</p>
+</div>
+<p>The <code>tidyverse</code> is an “opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.” The <code>tidyverse</code> is at the core of the the <a href="http://r4ds.had.co.nz/">R for Data Science text</a> written by Garrett Grolemund and Hadley Wickham. This book is aimed to be beginner-friendly but also deep enough to empower R experts as well. The framework of both the book and the <code>tidyverse</code> package is seen above.</p>
+<p>We focus on the <code>tidyverse</code> package as the r4ds online learning community was founded “with the goal of creating a supportive and responsive online space for learners and mentors to gather and work through the R for Data Science text”. Beyond that, the <code>tidyverse</code> is consistent, powerful, and typically more beginner friendly. It is a good framework to get started with, and is complementary to base R (or the 1000s of other R packages).</p>
+</div>
+<div id="guidelines-for-tidytuesday" class="section level2">
+<h2>Guidelines for TidyTuesday</h2>
+<p>To participate in TidyTuesday, you need to do a few things:</p>
+<ol style="list-style-type: decimal">
+<li>Create and save an image of a plot from R</li>
+<li>Save the code used to recreate your plot (include data tidy steps!)</li>
+<li>Submit the plot and code on Twitter</li>
+<li>Use the <code>#TidyTuesday</code> hashtag (you can also tag me <span class="citation">@thomas_mock</span>)</li>
+<li>Browse other submissions and like/comment on their work!</li>
+</ol>
+<p>However, that might seem like a <em>lot</em>! So at <em>minimum</em> please submit your plot with the hashtag <code>#TidyTuesday</code>.</p>
+<p>All data will be posted on the <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data">data sets page</a> on Monday. It will include the link to the original article (for context) and to the data set.</p>
+<p>If you want to work on GitHub (a useful data science skill) feel free to post your code on GitHub! This will allow others to see and use your code, whereas an image of the code means they would have to re-type everything! Additionally, hosting on GitHub gives you a Data Science Portfolio to talk about/show in interviews, and allows you to access your code across different computers easily!</p>
+<p><a href="https://github.com/">GitHub link!</a></p>
+<p><a href="https://guides.github.com/activities/hello-world/">GitHub Guide!</a></p>
+<p>You can also upload your code into <a href="https://carbon.now.sh/">Carbon</a>, a website the generates a high-quality image of your code.</p>
+<p>Lastly, if you create your plot with the <code>tidyverse</code> <a href="http://ggplot2.tidyverse.org/reference/ggsave.html">you can save high quality <code>ggplot2</code> images</a>!</p>
+</div>
+<div id="rules-for-tidytuesday" class="section level2">
+<h2>Rules for TidyTuesday</h2>
+<p>We welcome all newcomers, enthusiasts, and experts to participate, but be mindful of a few things:</p>
+<ol style="list-style-type: decimal">
+<li>This is NOT about criticizing the original authors. They are people like you and me and they have feelings. Focus on the data, the charts and improving your own techniques.</li>
+<li>This is NOT about criticizing or tearing down your fellow #RStats practitioners! Be supportive and kind to each other! Like other’s posts and help promote the #RStats community!</li>
+<li>The data set comes from the source article or the source that the article credits. Be mindful that the data is what it is and Tidy Tuesday is designed to help you practice data visualization and basic data wrangling.</li>
+<li>Use the hashtag #TidyTuesday on Twitter if you create your own version and would like to share it.</li>
+<li>Include a picture of the visualisation when you post to Twitter.</li>
+<li>Include a copy of the code used to create your visualization when you post to Twitter. Comment your code wherever possible to help yourself and others understand your process!</li>
+<li>Focus on improving your craft, even if you end up with someting simple! Make something quick, but purposeful!</li>
+<li>Give credit to the original data source whenever possible.</li>
+</ol>
+</div>
+<div id="this-weeks-submissions" class="section level2">
+<h2>This week’s submissions!</h2>
+<p>Everyone did such a great job! I’m posting all the ones that I can find through the hashtag, you can always tag me in your post to make sure you get noticed in the future.</p>
+<p>Umair submitted the first TidyTuesday plot EVER!! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I plotted the costs for the last 5 years in the data <a href="https://t.co/jNQwHI1mqu">pic.twitter.com/jNQwHI1mqu</a></p>&mdash; Umair Durrani (@umairdurrani87) <a href="https://twitter.com/umairdurrani87/status/980941912722083841?ref_src=twsrc%5Etfw">April 2, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Meenakshi learned about new tidyverse functions and made a beautiful rainbow plot! <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/tidytuesday?src=hash&amp;ref_src=twsrc%5Etfw">#tidytuesday</a> done on a monday. Learnt gather and fct_reorder. Loved it!<br>Made my plot 🌈🌈 Thanks Thomas!! 😃 <a href="https://t.co/oqKV6HlBBt">pic.twitter.com/oqKV6HlBBt</a></p>&mdash; Meenakshi (@srini_meen) <a href="https://twitter.com/srini_meen/status/980991340497563649?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Son had several takes on the data, all of which helped tell the story! <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> Prices always go up, but if you compare it to the annual average then interesting things happen. Something happened in Arizona, Ohio, Hawai.  <br><br>code: <a href="https://t.co/xJ5kD185Os">https://t.co/xJ5kD185Os</a> <a href="https://t.co/i4BMDorq3c">pic.twitter.com/i4BMDorq3c</a></p>&mdash; Son M (@SonGeo) <a href="https://twitter.com/SonGeo/status/981022819596124160?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Bren submitted clean code and two great takes on the data! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Just having a little bit of R fun this Tuesday. Found this <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> and thought I could give my contribution. I gather() and summarise() all the Year variables though...makes a different result. <br>Thanks <a href="https://twitter.com/thomas_mock?ref_src=twsrc%5Etfw">@thomas_mock</a> for this good idea. <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/q54fI9LZRl">pic.twitter.com/q54fI9LZRl</a></p>&mdash; Marine, R user (@brenborbon) <a href="https://twitter.com/brenborbon/status/981013957665107970?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>John was one of our first submissions, and made a nice geo heatmap! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">10 year tuition growth per state. Second map is with Hawaii filtered out as it was bit of an outlier and darkening the entire map.<a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://twitter.com/hashtag/R4DS?src=hash&amp;ref_src=twsrc%5Etfw">#R4DS</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/EPE07myFCi">pic.twitter.com/EPE07myFCi</a></p>&mdash; John Bray (@njbuzz19) <a href="https://twitter.com/njbuzz19/status/981169470033948674?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>The Part Time Analyst selected a range of states that showed nice differences! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">my attempt at tidy tuesday. Difficult part was getting the cost from character to numeric <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>  <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/1fq70OSbhZ">pic.twitter.com/1fq70OSbhZ</a></p>&mdash; The Part Time Analyst (@parttimeanalyst) <a href="https://twitter.com/parttimeanalyst/status/981250658899808256?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Paula made a clean difference from the mean barplot! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">on <a href="https://twitter.com/hashtag/tidytuesday?src=hash&amp;ref_src=twsrc%5Etfw">#tidytuesday</a> I got this code <a href="https://t.co/nabbUZxLm3">https://t.co/nabbUZxLm3</a> I&#39;m wondering if the values are right in what I did similar to yours <a href="https://twitter.com/brenborbon?ref_src=twsrc%5Etfw">@brenborbon</a> but different from the original plot 🤔 <a href="https://t.co/49IYNxR2EJ">pic.twitter.com/49IYNxR2EJ</a></p>&mdash; Paula Andrea (@orchid00) <a href="https://twitter.com/orchid00/status/981231113506050053?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Nivranshu wrote a blogpost and made several graphs with their own cricket data! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">My post for <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> - Visualizing IPL scores using tidy data principles -- <a href="https://t.co/r1vj1Wix1l">https://t.co/r1vj1Wix1l</a>.<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> <a href="https://twitter.com/hashtag/tidyverse?src=hash&amp;ref_src=twsrc%5Etfw">#tidyverse</a> <a href="https://t.co/YGoVFPgnzx">pic.twitter.com/YGoVFPgnzx</a></p>&mdash; Nivranshu (@_nivranshu) <a href="https://twitter.com/_nivranshu/status/981216074900430850?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Dylan submitted two takes on the data that both turned out great! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Here&#39;s my first go at <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>, working with tuition data in the United States. Nothing is quite as smooth as <a href="https://twitter.com/hashtag/tidyverse?src=hash&amp;ref_src=twsrc%5Etfw">#tidyverse</a> and <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> when doing data analysis. Let me know your thoughts! <a href="https://t.co/DLoP31bOXK">pic.twitter.com/DLoP31bOXK</a></p>&mdash; Dylan McDowell (@_dylanjm_) <a href="https://twitter.com/_dylanjm_/status/981791977552265217?ref_src=twsrc%5Etfw">April 5, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Rohit created a shiny app, and output gif! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Finally built my first shiny app as a part of <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://t.co/G6oJJ5t2HF">https://t.co/G6oJJ5t2HF</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/ggplot2?src=hash&amp;ref_src=twsrc%5Etfw">#ggplot2</a> <a href="https://twitter.com/hashtag/R4DS?src=hash&amp;ref_src=twsrc%5Etfw">#R4DS</a> <a href="https://t.co/pExxXPBZWn">pic.twitter.com/pExxXPBZWn</a></p>&mdash; Rohit Malhotra (@krohitm) <a href="https://twitter.com/krohitm/status/981746783775870977?ref_src=twsrc%5Etfw">April 5, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Raul submitted a nice, facetted graph with a swapped axis! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hopefully not too late for a <a href="https://twitter.com/hashtag/tidytuesday?src=hash&amp;ref_src=twsrc%5Etfw">#tidytuesday</a> submission <a href="https://t.co/fqtc2YLXkh">pic.twitter.com/fqtc2YLXkh</a></p>&mdash; Raul (@raviolli77) <a href="https://twitter.com/raviolli77/status/981660586185379840?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>The Wire Monkey submitted a gif of the US with hex states! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Used <a href="https://t.co/fCLxYKVDTw">https://t.co/fCLxYKVDTw</a><a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> to learn hexmap via <a href="https://t.co/CegVkyaBfs">https://t.co/CegVkyaBfs</a> and gganimate. <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/maps?src=hash&amp;ref_src=twsrc%5Etfw">#maps</a> <a href="https://twitter.com/hashtag/adaylate?src=hash&amp;ref_src=twsrc%5Etfw">#adaylate</a> <a href="https://twitter.com/hashtag/r4ds?src=hash&amp;ref_src=twsrc%5Etfw">#r4ds</a> <a href="https://t.co/5LNS1q2bOJ">pic.twitter.com/5LNS1q2bOJ</a></p>&mdash; TheWireMonkey (@WireMonkey) <a href="https://twitter.com/WireMonkey/status/981639213186678784?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Vinicius submitted a good-looking heatmap! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Not something I would do in practice, but I used the opportunity to experiment with R. <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/ggplot2?src=hash&amp;ref_src=twsrc%5Etfw">#ggplot2</a> <a href="https://t.co/rJ3kX1C2AR">pic.twitter.com/rJ3kX1C2AR</a></p>&mdash; Vinícius Félix (@H0Vinicius) <a href="https://twitter.com/H0Vinicius/status/981467944625549312?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Jake submitted a super clean slopegraph! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">A slopegraph for <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a>, code available at: <a href="https://t.co/qS64cQ3oDJ">https://t.co/qS64cQ3oDJ</a> <a href="https://t.co/j34DA2DzN6">pic.twitter.com/j34DA2DzN6</a></p>&mdash; Jake Kaupp (@jakekaupp) <a href="https://twitter.com/jakekaupp/status/981265942226309121?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Robert ubmitted another take on Jake’s slopegraph! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I loved that approach.  I wanted to see what the growth rates looked like identifiable by state,  here went....  th code is <a href="https://t.co/HGqXMVnhnF">https://t.co/HGqXMVnhnF</a><a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://t.co/pnCf8aJqP2">pic.twitter.com/pnCf8aJqP2</a></p>&mdash; Robert Walker (@PieRatio) <a href="https://twitter.com/PieRatio/status/981409557766393856?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Frank wrote a great blogpost on his “4 hour process”! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">New blog post: My first <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> challenge, completed within a 4-hour time limit from concept to communication. <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/r4ds?src=hash&amp;ref_src=twsrc%5Etfw">#r4ds</a> <a href="https://t.co/o82e1eOloo">https://t.co/o82e1eOloo</a></p>&mdash; Frank Farach (@FrankFarach) <a href="https://twitter.com/FrankFarach/status/981396430354075648?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Sam made a really well organized facetted map! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">My <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> submission, a first pass with geo_facet() and trying to get my head around nested data frames. Not sure the absolute ranking is as important as showing where each state is relative to the others   <a href="https://t.co/Hp3wd7R4VL">https://t.co/Hp3wd7R4VL</a> <a href="https://t.co/K4FFY7rg74">pic.twitter.com/K4FFY7rg74</a></p>&mdash; Sam Clifford (@samclifford) <a href="https://twitter.com/samclifford/status/981329343702970369?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Isabella submitted a really nice beeswarm plot over time! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I love me some beeswarm plots... <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/76T94PU3el">pic.twitter.com/76T94PU3el</a></p>&mdash; Isabella Velásquez (@ivelasq3) <a href="https://twitter.com/ivelasq3/status/981299737524490240?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Miguel used some data he was already working on, with nice walk-though code! <blockquote class="twitter-tweet"><p lang="en" dir="ltr">My intent of exploratory analysis based on categorical data (factor variables). Group counting by conditions, creating two new datasets with the results and joining them by a common variable to plot the whole information. Thoughts? <a href="https://twitter.com/hashtag/TidyTuesday?src=hash&amp;ref_src=twsrc%5Etfw">#TidyTuesday</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/NqHyHPH3qd">pic.twitter.com/NqHyHPH3qd</a></p>&mdash; Miguel Cosenza (@MiguelCos) <a href="https://twitter.com/MiguelCos/status/981295148251451393?ref_src=twsrc%5Etfw">April 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>If you made a plot and I missed it, feel free to contact me on Twitter with a link to your tweet. As <code>#TidyTuesday</code> grows, there may be issues where Twitter doesn’t show ALL the plots to me – so it may be helpful to tag me directly in your post to guarantee I see it for sharing!</p>
+<p>Here’s to next week! Good luck!</p>
+<p>I’d also like to thank the <code>#r4ds</code> Mentorship Pilot team for their help in conceptualizing TidyTuesday: Terence, Rosa Castillo, Andrew Macfarland, Ariel Levy, Burcukaniskan, Corrado Lanera, Jake Kaupp, Jason Baik, Jesse Maegan, Radovan Kavicky, Raul, and Shan. There are some other cool projects coming out of this group, so stay posted as they roll out over the next few months.</p>
+</div>
+<div id="other-useful-links" class="section level2">
+<h2>Other Useful Links</h2>
+<p><a href="https://www.jessemaegan.com/post/r4ds-the-next-iteration/">The R4DS Online Learning Community</a></p>
+<p><a href="http://r4ds.had.co.nz/">The R for Data Science textbook</a></p>
+<p><a href="https://carbon.now.sh/">Carbon lets you post beautiful code directly to Twitter!</a></p>
+<p><a href="https://cran.r-project.org/web/packages/fivethirtyeight/fivethirtyeight.pdf">We will use the fivethirtyeight package frequently for “tame data</a></p>
+<p><a href="https://github.com/">GitHub lets you host raw code for free!</a></p>
+<p><a href="https://guides.github.com/activities/hello-world/">A guide to getting started with GitHub</a></p>
+<p><a href="http://ggplot2.tidyverse.org/reference/ggsave.html">How to save high quality <code>ggplot2</code> images</a></p>
+<p><a href="http://www.makeovermonday.co.uk/data/">Makeover Monday</a></p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r4ds">R4DS</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidytuesday">TidyTuesday</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/functional-programming-in-r-with-purrr/">Functional programming in R with Purrr</a></li>
+        
+        <li><a href="/post/a-gentle-guide-to-tidy-statistics-in-r/">A gentle guide to Tidy statistics in R</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
